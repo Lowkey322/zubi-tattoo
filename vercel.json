@@ -1,0 +1,6 @@
+{
+  "crons": [{ "path": "/api/cron", "schedule": "0 17 * * *" }],
+  "headers": [
+    { "source": "/img/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800" }] }
+  ]
+}
