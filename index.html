@@ -498,8 +498,40 @@ body::after{content:"";position:fixed;inset:-40%;z-index:94;pointer-events:none;
 .cur span{position:absolute;left:0;top:0;translate:-50% -50%;display:grid;place-items:center;min-width:88px;height:88px;padding:0 14px;border-radius:999px;background:#E9E4DD;color:#0C0C0C;font:600 12px/1 var(--f-body);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;scale:.2;opacity:0;transition:scale .4s cubic-bezier(.16,1,.3,1),opacity .2s ease}
 .cur.on span{scale:1;opacity:1}
 .mag{transition:translate .2s cubic-bezier(.16,1,.3,1)}
-.hero-cta .btn-fill,#bar .btn,.nav-cta{transition:translate .5s cubic-bezier(.16,1,.3,1),background-color .2s ease,color .2s ease}
+.hero-cta .btn-fill,#bar .btn,.nav-cta{transition:translate .5s cubic-bezier(.16,1,.3,1),scale .45s var(--spring,cubic-bezier(.16,1,.3,1)),background-color .2s ease,color .2s ease}
 @media (prefers-reduced-motion:reduce){.hero h1 .w i{translate:none;transition:none}.mq-track{animation:none}}
+
+/* ---------- iOS-style entrances (springs) and press feedback ---------- */
+:root{--spring:cubic-bezier(.16,1,.3,1)}
+.lang-menu:not([hidden]){animation:popIn .5s var(--spring) both}
+.lang-menu:not([hidden]) button{animation:itemIn .42s var(--spring) both}
+.lang-menu:not([hidden]) button:nth-child(2){animation-delay:.03s}.lang-menu:not([hidden]) button:nth-child(3){animation-delay:.06s}.lang-menu:not([hidden]) button:nth-child(4){animation-delay:.09s}
+@keyframes popIn{from{opacity:0;transform:scale(.82) translateY(-6px)}to{opacity:1;transform:none}}
+@keyframes itemIn{from{opacity:0;translate:0 -6px}to{opacity:1;translate:0 0}}
+.sheet:not([hidden]){animation:shFade .3s cubic-bezier(.16,1,.3,1) both}
+.sheet:not([hidden])>.in{animation:shRise .62s var(--spring) both}
+.sheet:not([hidden]) .menu-list>*{animation:itemUp .55s var(--spring) both}
+.sheet:not([hidden]) .menu-list>:nth-child(1){animation-delay:.04s}.sheet:not([hidden]) .menu-list>:nth-child(2){animation-delay:.07s}.sheet:not([hidden]) .menu-list>:nth-child(3){animation-delay:.1s}.sheet:not([hidden]) .menu-list>:nth-child(4){animation-delay:.13s}.sheet:not([hidden]) .menu-list>:nth-child(n+5){animation-delay:.16s}
+@keyframes shFade{from{opacity:0}to{opacity:1}}
+@keyframes shRise{from{opacity:0;transform:translateY(34px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes itemUp{from{opacity:0;translate:0 14px}to{opacity:1;translate:0 0}}
+.ask:not([hidden]){animation:shFade .22s ease-out both}
+.ask:not([hidden])>.ask-in{animation:popIn2 .5s var(--spring) both}
+@keyframes popIn2{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
+.toast:not([hidden]){animation:toastIn .5s var(--spring) both}
+@keyframes toastIn{from{opacity:0;translate:0 -10px;scale:.94}to{opacity:1;translate:0 0;scale:1}}
+/* every tappable thing gives way under the finger and springs back */
+:where(.btn,.cbtn,.menu-btn,.close,.tab,.mini,#langBtn,.lang-menu button,.lang-pills button,.menu-list a,.menu-list button,.tile,.panel-link){transition:scale .45s var(--spring),background-color .2s ease,color .2s ease,opacity .2s ease,translate .5s cubic-bezier(.16,1,.3,1);-webkit-tap-highlight-color:transparent}
+:where(.btn,.cbtn,.menu-btn,.close,.tab,.mini,#langBtn,.lang-menu button,.lang-pills button,.menu-list a,.menu-list button,.panel-link):active{scale:.95}
+.tile:active{scale:.98}
+@media (prefers-reduced-motion:reduce){.lang-menu:not([hidden]),.lang-menu:not([hidden]) button,.sheet:not([hidden]),.sheet:not([hidden])>.in,.sheet:not([hidden]) .menu-list>*,.ask:not([hidden]),.ask:not([hidden])>.ask-in,.toast:not([hidden]){animation:none}:is(.btn,.cbtn,.menu-btn,.close,.tab,.mini,#langBtn,.tile):active{scale:none}}
+/* short viewports: in-app browsers (Instagram, Telegram) eat 100–170px of height */
+@media (max-width:899px) and (max-height:700px){
+  .hero{height:max(100svh,500px)}
+  .hero h1{font-size:clamp(34px,10.5vw,40px)}
+  .hero-text{gap:10px;bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+  .hero img{height:76%}
+}
 
 .tgrow p{margin:2px 0 8px}.tgrow b.ok{color:#8fd19a}.tgrow b.off{color:#d8b48a}
 .tg-cta{width:100%;justify-content:center;margin-top:4px}
@@ -1243,6 +1275,42 @@ if(FINE&&!reduce){
   document.addEventListener('pointerleave',()=>cur.classList.remove('on'));
   (function loop(){cx+=(x-cx)*.2;cy+=(y-cy)*.2;cur.style.transform='translate('+cx.toFixed(1)+'px,'+cy.toFixed(1)+'px)';requestAnimationFrame(loop);})();
 }
+/* ---------- iOS-style motion: springs in, quick and quiet out ---------- */
+const SPRING=(function(){const z=.74,w0=Math.log(400)/(z*1),wd=w0*Math.sqrt(1-z*z),p=[];
+  for(let i=0;i<=32;i++){const u=i/32,v=1-Math.exp(-z*w0*u)*(Math.cos(wd*u)+z*w0/wd*Math.sin(wd*u));p.push(+v.toFixed(4));}p[32]=1;
+  return CSS.supports('animation-timing-function','linear(0, 1)')?'linear('+p.join(', ')+')':'cubic-bezier(.16,1,.3,1)';})();
+document.documentElement.style.setProperty('--spring',SPRING);
+const EXIT='cubic-bezier(.35,0,.75,.2)';
+/* language popover: anchored to its button, grows out of it */
+function placeLang(){const nav=$('#nav').getBoundingClientRect(),r=langBtn.getBoundingClientRect(),W=langMenu.offsetWidth||208;
+  let left=r.left;if(left+W>innerWidth-12)left=r.right-W;left=Math.max(12,left);
+  langMenu.style.left=(left-nav.left)+'px';langMenu.style.right='auto';langMenu.style.top=(r.bottom-nav.top+8)+'px';
+  langMenu.style.transformOrigin=Math.round(r.left+r.width/2-left)+'px -8px';}
+setLangMenu=function(open){const was=!langMenu.hidden;langBtn.setAttribute('aria-expanded',String(open));
+  if(open&&!was){langMenu.hidden=false;placeLang();return;}
+  if(!open&&was&&!langMenu._out){if(reduce){langMenu.hidden=true;return;}langMenu._out=true;
+    const a=langMenu.animate([{opacity:1,transform:'none'},{opacity:0,transform:'scale(.9) translateY(-4px)'}],{duration:170,easing:EXIT,fill:'forwards'});
+    a.finished.catch(()=>{}).then(()=>{langMenu.hidden=true;langMenu._out=false;a.cancel();});}};
+addEventListener('resize',()=>{if(!langMenu.hidden)placeLang();},{passive:true});
+/* sheets: rise on a spring, leave quickly; the lightbox keeps its own morph */
+{const _open=openSheet,_close=closeSheet;
+  const skip=sel=>reduce||(sel==='#lb'&&!!document.startViewTransition);
+  openSheet=function(sel,from){const el=$(sel);if(el._out){el.getAnimations({subtree:true}).forEach(a=>a.cancel());el._out=false;}_open(sel,from);};
+  closeSheet=function(sel){const el=$(sel);if(el.hidden||el._out)return;if(skip(sel)){_close(sel);return;}
+    el._out=true;if(!sheets.some(s=>s!==sel&&!$(s).hidden))document.body.style.overflow='';
+    const inner=el.querySelector(':scope > .in, :scope > .ask-in')||null;
+    const a=el.animate([{opacity:1},{opacity:0}],{duration:220,easing:EXIT,fill:'forwards'});
+    if(inner)inner.animate([{transform:'none'},{transform:'translateY(18px) scale(.985)'}],{duration:220,easing:EXIT,fill:'forwards'});
+    a.finished.catch(()=>{}).then(()=>{if(!el._out)return;el._out=false;_close(sel);el.getAnimations({subtree:true}).forEach(x=>x.cancel());});};}
+/* desktop: soft inertial wheel scroll; touch keeps the platform's own momentum */
+if(FINE&&!reduce){let tgt=scrollY,cur=scrollY,raf=0,own=0;
+  const inScroller=el=>{for(;el&&el!==document.body&&el!==document.documentElement;el=el.parentElement){if(el.scrollHeight>el.clientHeight+1){const o=getComputedStyle(el).overflowY;if(o==='auto'||o==='scroll')return true;}}return false;};
+  const tick=()=>{cur+=(tgt-cur)*.14;if(Math.abs(tgt-cur)<.4)cur=tgt;own++;scrollTo({top:cur,behavior:'instant'});raf=cur!==tgt?requestAnimationFrame(tick):0;};
+  addEventListener('wheel',e=>{if(e.ctrlKey||e.defaultPrevented||Math.abs(e.deltaX)>Math.abs(e.deltaY)||document.body.style.overflow==='hidden'||inScroller(e.target))return;
+    e.preventDefault();const dy=e.deltaMode===1?e.deltaY*36:e.deltaMode===2?e.deltaY*innerHeight:e.deltaY;
+    if(!raf){tgt=cur=scrollY;}tgt=Math.max(0,Math.min(document.documentElement.scrollHeight-innerHeight,tgt+dy));if(!raf)raf=requestAnimationFrame(tick);},{passive:false});
+  addEventListener('scroll',()=>{if(own>0){own--;return;}if(!raf){tgt=cur=scrollY;}},{passive:true});
+  addEventListener('keydown',()=>{if(raf){cancelAnimationFrame(raf);raf=0;}});}
 S.mine=[];renderAll();
 async function loadState(){try{const s=await api('state');S.live=!!s.live;S.bot=s.bot||null;
   if(s.content)S.content=Object.assign(clone(DEF.content),s.content);if(Array.isArray(s.artists))S.artists=s.artists;if(Array.isArray(s.works))S.works=s.works;S.slots=s.slots||[];
