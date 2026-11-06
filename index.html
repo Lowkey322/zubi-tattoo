@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0C0C0C">
 <meta name="description" content="ZUBI Tattoo, Warszawa. Autorskie tatuaże, fine line i blackwork. Zapisy online do czterech tatuatorów.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%228%22 fill=%22%23111%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-size=%2216%22 text-anchor=%22middle%22 fill=%22%23E9E4DD%22 font-family=%22serif%22%3EZ%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22%3E%3Crect%20width=%22100%22%20height=%22100%22%20rx=%2222%22%20fill=%22%230C0C0C%22/%3E%3Cg%20transform=%22translate%2812%2012%29%20scale%28.76%29%22%3E%3Cpath%20fill-rule=%22evenodd%22%20fill=%22%23E9E4DD%22%20d=%22M16%206L37%2029C45%2027%2055%2027%2063%2029L84%206C89%2022%2089%2034%2087%2043C91%2049%2095%2056%2097%2065L89.5%2062.5C88%2080%2070%2092%2050%2092C30%2092%2012%2080%2010.5%2062.5L3%2065C5%2056%209%2049%2013%2043C11%2034%2011%2022%2016%206ZM21%2018L30%2030L22%2035ZM79%2018L70%2030L78%2035ZM23%2050C31%2048.5%2039%2051%2045.5%2055.5C39%2060%2028%2058.5%2023%2050ZM77%2050C69%2048.5%2061%2051%2054.5%2055.5C61%2060%2072%2058.5%2077%2050ZM46.8%2065.5H53.2L50%2069.2ZM42.6%2073.2L45.6%2084.5L48.2%2074.2ZM51.8%2074.2L54.4%2084.5L57.4%2073.2Z%22/%3E%3Cpath%20fill=%22%23E9E4DD%22%20d=%22M35.6%2050.5C34.5%2053%2034.5%2056.5%2035.6%2059C36.7%2056.5%2036.7%2053%2035.6%2050.5ZM64.4%2050.5C63.3%2053%2063.3%2056.5%2064.4%2059C65.5%2056.5%2065.5%2053%2064.4%2050.5Z%22/%3E%3C/g%3E%3C/svg%3E">
 <title>ZUBI Tattoo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -429,24 +429,20 @@ form#bkForm{display:grid;gap:16px}
 .badge{position:absolute;top:2px;right:2px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#FAC775;color:#2a1c05;font:700 11px/18px var(--f-body);text-align:center}
 .fld .help{font-size:12px;color:var(--mut);line-height:1.45}
 
-/* ---------- intro loader: stencil → linework → shading → ink flood ---------- */
-#ld{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#E9E4DD;color:#0C0C0C;animation:ldFail .4s 11s forwards}
-#ld::before{content:"";position:absolute;inset:0;background:radial-gradient(70% 60% at 50% 45%,rgba(255,255,255,.55),transparent 70%),radial-gradient(120% 90% at 50% 120%,rgba(143,138,131,.22),transparent 60%);pointer-events:none}
+/* ---------- intro loader: the ZUBI mark tattooed in dotwork ---------- */
+#ld{position:fixed;inset:0;z-index:9999;background:#E9E4DD;color:#0C0C0C;animation:ldFail .4s 11s forwards;transition:opacity .45s cubic-bezier(.16,1,.3,1)}
+#ld::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 50% at 50% 42%,rgba(255,255,255,.5),transparent 70%),radial-gradient(130% 90% at 50% 125%,rgba(143,138,131,.25),transparent 60%);pointer-events:none}
+#ld.out{opacity:0}
 @keyframes ldFail{to{opacity:0;visibility:hidden}}
-.ld-stage{position:relative;display:grid;justify-items:center;gap:clamp(10px,2.2vh,22px);padding:0 16px}
-.ld-kicker{font:500 11px/1 var(--f-body);letter-spacing:.24em;text-transform:uppercase;color:#6F6A64;margin:-4px 0 0}
-.ld-art{width:min(58vw,40vh,340px);height:auto;overflow:visible}
-.ld-word{display:flex;align-items:baseline;gap:.5em;margin-top:-.2em}
-.ld-word b{font:600 clamp(30px,6vw,44px)/1 var(--f-display);letter-spacing:.18em;padding-left:.18em}
-.ld-word span{font:500 11px/1 var(--f-body);letter-spacing:.3em;text-transform:uppercase;color:#6F6A64}
-.ld-text{display:grid;grid-template-columns:auto auto;gap:9px 16px;align-items:baseline;margin-top:clamp(6px,2vh,18px);font:500 11px/1 var(--f-body);letter-spacing:.22em;text-transform:uppercase;color:#6F6A64;white-space:nowrap}
-.ld-text b{font-weight:600;color:#0C0C0C;font-variant-numeric:tabular-nums;letter-spacing:.08em;justify-self:end;min-width:4ch;text-align:right}
-.ld-text i{grid-column:1/-1;width:100%;height:1px;background:rgba(12,12,12,.14);overflow:hidden}
-.ld-text em{display:block;height:100%;background:#0C0C0C;transform-origin:0 50%;transform:scaleX(0)}
-#ldInk{position:fixed;inset:0;z-index:10000;background:#0C0C0C;pointer-events:none;clip-path:circle(0 at var(--x,50%) var(--y,50%));visibility:hidden}
-#ldInk.go{visibility:visible;animation:ldFlood .76s cubic-bezier(.65,0,.35,1) forwards}
-#ldInk.out{opacity:0;transition:opacity .55s cubic-bezier(.16,1,.3,1)}
-@keyframes ldFlood{from{clip-path:circle(var(--r0,40px) at var(--x,50%) var(--y,50%))}to{clip-path:circle(var(--r1,150vmax) at var(--x,50%) var(--y,50%))}}
+#ldCv{position:absolute;inset:0;display:block}
+.ld-brand{position:absolute;left:0;right:0;display:grid;justify-items:center;gap:10px;opacity:0;translate:0 10px;transition:opacity .5s cubic-bezier(.16,1,.3,1),translate .7s cubic-bezier(.16,1,.3,1)}
+.ld-brand b{font:600 clamp(20px,3.4vw,26px)/1 var(--f-body);letter-spacing:.46em;padding-left:.46em}
+.ld-brand span{font:500 11px/1 var(--f-body);letter-spacing:.24em;text-transform:uppercase;color:#57524C}
+#ld.done .ld-brand{opacity:1;translate:0 0}
+#ld.wipe .ld-brand{opacity:0;transition-duration:.25s}
+.ld-text{position:absolute;left:0;right:0;bottom:calc(28px + env(safe-area-inset-bottom,0px));display:flex;justify-content:center;gap:14px;align-items:baseline;font:500 11px/1 var(--f-body);letter-spacing:.22em;text-transform:uppercase;color:#57524C;transition:opacity .3s ease}
+.ld-text b{font-weight:600;color:#0C0C0C;font-variant-numeric:tabular-nums;letter-spacing:.06em;min-width:4ch}
+#ld.done .ld-text{opacity:0}
 /* site entrance after the loader */
 html.ld-wait #nav>.logo,html.ld-wait #nav>.nav-links,html.ld-wait #nav>.actions,html.ld-wait .hero-text>*,html.ld-wait #bar,html.ld-wait .hero .credit{opacity:0}
 html.ld-play #nav>.logo,html.ld-play #nav>.nav-links,html.ld-play #nav>.actions{animation:ldDown .8s cubic-bezier(.16,1,.3,1) both}
@@ -460,8 +456,7 @@ html.ld-play #heroImg{animation:ldImg 1.6s cubic-bezier(.16,1,.3,1) both}
 @keyframes ldUp{from{opacity:0;translate:0 26px;filter:blur(8px)}to{opacity:1;translate:0 0;filter:none}}
 @keyframes ldFade{from{opacity:0}to{opacity:1}}
 @keyframes ldImg{from{scale:1.08;filter:brightness(.55)}to{scale:1;filter:none}}
-@media (max-height:560px){.ld-kicker,.ld-word span{display:none}.ld-art{width:min(40vw,46vh,240px)}}
-@media (prefers-reduced-motion:reduce){#ldInk.go{animation:none;clip-path:none}html.ld-play #nav>*,html.ld-play .hero-text>*,html.ld-play #bar,html.ld-play .hero .credit,html.ld-play #heroImg{animation:none}}
+@media (prefers-reduced-motion:reduce){.ld-brand{transition:none}html.ld-play #nav>*,html.ld-play .hero-text>*,html.ld-play #bar,html.ld-play .hero .credit,html.ld-play #heroImg{animation:none}}
 
 /* ---------- motion layer (v5) ---------- */
 /* hero headline: masked word reveal */
@@ -515,62 +510,24 @@ div.info{padding:14px 16px;border:1px solid rgba(233,228,221,.16);border-radius:
 </head>
 <body>
 <div id="ld" role="status" aria-label="ZUBI Tattoo">
-  <div class="ld-stage">
-    <svg class="ld-art" id="ldArt" viewBox="20 18 170 196" aria-hidden="true">
-      <defs>
-        <pattern id="ldDots" width="3.2" height="3.2" patternUnits="userSpaceOnUse"><circle cx="1.6" cy="1.6" r=".85" fill="#0C0C0C"/></pattern>
-        <clipPath id="ldCSolid"><rect id="ldRSolid" x="0" y="214" width="240" height="240"/></clipPath>
-        <clipPath id="ldCDots"><rect id="ldRDots" x="0" y="214" width="240" height="240"/></clipPath>
-        <filter id="ldBleed" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation=".55"/></filter>
-        <path id="ldShape" d="M62 198C48 176 50 140 66 118 72 108 76 100 76 92 66 86 62 74 64 62L60 30 80 46C92 42 108 42 120 46L140 30 136 62C138 74 134 86 124 92 124 100 128 108 134 118 150 140 152 176 138 198 136 206 120 207 112 204 106 206 94 206 88 204 80 207 64 206 62 198Z"/>
-      </defs>
-      <!-- stencil: graphite dashes, visible from the start -->
-      <g id="ldStencil" fill="none" stroke="#8F8A83" stroke-width="1" stroke-dasharray="2.2 2.6" stroke-linecap="round" stroke-linejoin="round"></g>
-      <!-- shading: dotwork leads, solid ink follows -->
-      <g id="ldFill">
-        <use href="#ldShape" fill="url(#ldDots)" clip-path="url(#ldCDots)"/>
-        <use href="#ldShape" fill="#0C0C0C" clip-path="url(#ldCSolid)"/>
-      </g>
-      <!-- linework: bleed under a crisp line -->
-      <g id="ldBleedG" fill="none" stroke="#0C0C0C" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" opacity=".28" filter="url(#ldBleed)"></g>
-      <g id="ldInkG" fill="none" stroke="#0C0C0C" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"></g>
-      <g id="ldEyes" opacity="0"><path d="M80 66C84 60 92 60 95 66 92 70 84 70 80 66Z" fill="#E9E4DD"/><path d="M120 66C116 60 108 60 105 66 108 70 116 70 120 66Z" fill="#E9E4DD"/><path d="M87.5 62.2v7.6M112.5 62.2v7.6" stroke="#0C0C0C" stroke-width="2" stroke-linecap="round"/></g>
-      <!-- the machine: a rotary pen held at an angle, needle on the line -->
-      <g id="ldPen" opacity="0">
-        <g transform="rotate(-32)">
-          <path d="M0 0v-7" stroke="#0C0C0C" stroke-width=".8" stroke-linecap="round"/>
-          <rect x="-2.6" y="-21" width="5.2" height="14" rx="1.4" fill="#0C0C0C" opacity=".35"/>
-          <rect x="-4.2" y="-49" width="8.4" height="29" rx="3" fill="#0C0C0C"/>
-          <path d="M-4.2 -44h8.4M-4.2 -40h8.4M-4.2 -36h8.4M-4.2 -32h8.4M-4.2 -28h8.4" stroke="#E9E4DD" stroke-opacity=".22" stroke-width=".6"/>
-          <rect x="-5.4" y="-88" width="10.8" height="40" rx="4.5" fill="#0C0C0C"/>
-          <rect x="-1.6" y="-84" width="1.2" height="30" rx=".6" fill="#E9E4DD" opacity=".18"/>
-          <path d="M0 -88c0-10 6-14 14-22" stroke="#0C0C0C" stroke-width="2" fill="none" stroke-linecap="round"/>
-        </g>
-      </g>
-    </svg>
-    <div class="ld-word" aria-hidden="true"><b>ZUBI</b><span>Tattoo</span></div>
-    <p class="ld-kicker" id="ldStudio">Studio tatuażu · Warszawa</p>
-    <div class="ld-text" aria-hidden="true"><span id="ldWord">Ładowanie</span><b id="ldPct">0%</b><i><em id="ldBar"></em></i></div>
-  </div>
+  <canvas id="ldCv" aria-hidden="true"></canvas>
+  <div class="ld-brand" id="ldBrand" aria-hidden="true"><b>ZUBI</b><span id="ldStudio">Studio tatuażu · Warszawa</span></div>
+  <div class="ld-text" aria-hidden="true"><span id="ldWord">Ładowanie</span><b id="ldPct">0%</b></div>
 </div>
-<div id="ldInk" aria-hidden="true"></div>
 <script>
 (function(){
-  var D=document.documentElement,ld=document.getElementById('ld'),ink=document.getElementById('ldInk'),q=location.search,h=location.hash,seen=false;
+  var D=document.documentElement,ld=document.getElementById('ld'),q=location.search,h=location.hash,seen=false;
   try{seen=sessionStorage.getItem('zubi-intro')==='1';}catch(e){}
-  var force=/[?&]intro\b/.test(q);
-  if(!force&&(seen||h==='#panel'||/[?&]b=/.test(q))){ld.remove();ink.remove();return;}
+  if(!/[?&]intro\b/.test(q)&&(seen||h==='#panel'||/[?&]b=/.test(q))){ld.remove();return;}
   try{sessionStorage.setItem('zubi-intro','1');}catch(e){}
   D.classList.add('ld-wait');
-  var $=function(i){return document.getElementById(i);},NS='http://www.w3.org/2000/svg';
-  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,T0=performance.now(),CAP=9000;
+  var $=function(i){return document.getElementById(i);},reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,T0=performance.now(),CAP=9000;
   var theme=document.querySelector('meta[name=theme-color]');if(theme)theme.setAttribute('content','#E9E4DD');
-  /* ---------- texts in the visitor's language ---------- */
   var TXT={pl:['Ładowanie','Studio tatuażu · Warszawa'],uk:['Завантаження','Тату-студія · Варшава'],en:['Loading','Tattoo studio · Warsaw'],ru:['Загрузка','Тату-студия · Варшава']},lg='';
   try{lg=localStorage.getItem('zubi-lang')||'';}catch(e){}
   if(!TXT[lg]){var nl=(navigator.language||'pl').slice(0,2);lg=TXT[nl]?nl:'pl';}
   $('ldWord').textContent=TXT[lg][0];$('ldStudio').textContent=TXT[lg][1];
-  /* ---------- real loading progress: fonts, hero photo, studio data, full page ---------- */
+  /* ---------- real loading progress ---------- */
   var W={fonts:.2,hero:.35,data:.25,load:.2},got={};
   function real(){var s=0;for(var k in got)s+=W[k];return Math.min(1,s);}
   function step(k){if(W[k]&&!got[k])got[k]=1;}
@@ -579,72 +536,86 @@ div.info{padding:14px 16px;border:1px solid rgba(233,228,221,.16);border-radius:
   addEventListener('DOMContentLoaded',function(){var im=$('heroImg');if(!im||im.complete)step('hero');else{im.addEventListener('load',function(){step('hero');});im.addEventListener('error',function(){step('hero');});}});
   if(document.readyState==='complete')step('load');else addEventListener('load',function(){step('load');});
   setTimeout(window.ZL.finish,CAP);
-  /* slow connections get a calmer pace, fast ones never wait for the show */
-  var cn=navigator.connection||{},slow=cn.saveData||/2g/.test(cn.effectiveType||'');
-  var MINDRAW=slow?.8:1.25; /* seconds: the shortest the drawing may take */
-  /* ---------- build the linework from the stencil paths ---------- */
-  var PATHS=[
-    'M62 198C48 176 50 140 66 118 72 108 76 100 76 92 66 86 62 74 64 62L60 30 80 46C92 42 108 42 120 46L140 30 136 62C138 74 134 86 124 92 124 100 128 108 134 118 150 140 152 176 138 198 136 206 120 207 112 204 106 206 94 206 88 204 80 207 64 206 62 198',
-    'M138 190C168 196 178 172 170 150 165 138 154 140 156 150',
-    'M88 204C88 180 90 160 92 146M112 204C112 180 110 160 108 146',
-    'M66 40L69 56M134 40L131 56',
-    'M80 66C84 60 92 60 95 66 92 70 84 70 80 66ZM120 66C116 60 108 60 105 66 108 70 116 70 120 66Z',
-    'M96 76H104L100 81ZM100 81C98 85 94 86 92 84M100 81C102 85 106 86 108 84',
-    'M76 80L52 76M76 84L52 86M124 80L148 76M124 84L148 86',
-    'M40 52L42 58 48 60 42 62 40 68 38 62 32 60 38 58ZM170 96L171.6 100.4 176 102 171.6 103.6 170 108 168.4 103.6 164 102 168.4 100.4Z'
-  ];
-  var segs=[],total=0,stencil=$('ldStencil'),inkG=$('ldInkG'),bleedG=$('ldBleedG');
-  PATHS.forEach(function(d,i){var s=document.createElementNS(NS,'path');s.setAttribute('d',d);stencil.appendChild(s);
-    var a=document.createElementNS(NS,'path');a.setAttribute('d',d);var b=a.cloneNode();inkG.appendChild(a);bleedG.appendChild(b);
-    var L=a.getTotalLength();[a,b].forEach(function(p){p.style.strokeDasharray=L+' '+(L+1);p.style.strokeDashoffset=L;});
-    segs.push({a:a,b:b,L:L,start:total,tail:i===1});total+=L;});
-  var pen=$('ldPen'),eyes=$('ldEyes'),rS=$('ldRSolid'),rD=$('ldRDots'),pct=$('ldPct'),bar=$('ldBar'),tailSeg=segs[1];
-  var LINE=.55; /* share of progress spent on linework; the rest is shading */
-  function draw(p){
-    var lp=Math.min(1,p/LINE)*total,tip=null;
-    for(var i=0;i<segs.length;i++){var s=segs[i],l=Math.max(0,Math.min(s.L,lp-s.start));var off=s.L-l;s.a.style.strokeDashoffset=off;s.b.style.strokeDashoffset=off;
-      if(l>0&&l<s.L)tip=s.a.getPointAtLength(l);}
-    var sp=Math.max(0,(p-LINE)/(1-LINE)),top=214-sp*200,j=reduce?0:.35,px=null,py=null;
-    if(tip&&p<LINE){px=tip.x;py=tip.y;}
-    else if(p>=LINE&&sp<.985){/* shading: the needle sweeps across the rising ink front */
-      var fy=Math.max(34,206-sp*176),hw=fy>118?30+(fy-118)*.24:fy>92?24:fy>50?30:12,t=performance.now()/1000;px=100+hw*.82*Math.sin(t*8.5);py=fy+2.2*Math.cos(t*17);}
-    if(px!=null){pen.setAttribute('transform','translate('+(px+(Math.random()-.5)*j).toFixed(2)+' '+(py+(Math.random()-.5)*j).toFixed(2)+')');pen.setAttribute('opacity','1');}
-    else pen.setAttribute('opacity','0');
-    rS.setAttribute('y',(top+26*(1-sp)).toFixed(2));rD.setAttribute('y',(top-4).toFixed(2));
-    tailSeg.a.style.strokeWidth=(1.9+7*sp).toFixed(2);
-    eyes.setAttribute('opacity',Math.max(0,(sp-.55)/.45).toFixed(2));
-    pct.textContent=Math.round(p*100)+'%';bar.style.transform='scaleX('+p.toFixed(3)+')';
+  var cn=navigator.connection||{},slow=cn.saveData||/2g/.test(cn.effectiveType||''),MINDRAW=slow?.8:1.35;
+  /* ---------- the mark, sampled into dotwork ---------- */
+  var BODY='M16 6L37 29C45 27 55 27 63 29L84 6C89 22 89 34 87 43C91 49 95 56 97 65L89.5 62.5C88 80 70 92 50 92C30 92 12 80 10.5 62.5L3 65C5 56 9 49 13 43C11 34 11 22 16 6ZM21 18L30 30L22 35ZM79 18L70 30L78 35ZM23 50C31 48.5 39 51 45.5 55.5C39 60 28 58.5 23 50ZM77 50C69 48.5 61 51 54.5 55.5C61 60 72 58.5 77 50ZM46.8 65.5H53.2L50 69.2ZM42.6 73.2L45.6 84.5L48.2 74.2ZM51.8 74.2L54.4 84.5L57.4 73.2Z',PUP='M35.6 50.5C34.5 53 34.5 56.5 35.6 59C36.7 56.5 36.7 53 35.6 50.5ZM64.4 50.5C63.3 53 63.3 56.5 64.4 59C65.5 56.5 65.5 53 64.4 50.5Z';
+  var cv=$('ldCv'),cx=cv.getContext('2d'),DPR=Math.min(2,devicePixelRatio||1),VW,VH,L,OX,OY,S,dots=[],pct=$('ldPct');
+  function sample(){
+    var N=300,o=document.createElement('canvas');o.width=o.height=N;var g=o.getContext('2d');
+    g.scale(N/100,N/100);g.fill(new Path2D(BODY),'evenodd');g.fill(new Path2D(PUP));
+    var a=g.getImageData(0,0,N,N).data,al=new Float32Array(N*N);for(var i=0;i<N*N;i++)al[i]=a[i*4+3]/255;
+    /* box blur twice: distance-to-edge proxy for dotwork shading */
+    function blur(src,r){var t=new Float32Array(N*N),out=new Float32Array(N*N),x,y,s;
+      for(y=0;y<N;y++){s=0;for(x=-r;x<=r;x++)s+=src[y*N+Math.min(N-1,Math.max(0,x))];for(x=0;x<N;x++){t[y*N+x]=s/(2*r+1);s+=src[y*N+Math.min(N-1,x+r+1)]-src[y*N+Math.max(0,x-r)];}}
+      for(x=0;x<N;x++){s=0;for(y=-r;y<=r;y++)s+=t[Math.min(N-1,Math.max(0,y))*N+x];for(y=0;y<N;y++){out[y*N+x]=s/(2*r+1);s+=t[Math.min(N-1,y+r+1)*N+x]-t[Math.max(0,y-r)*N+x];}}
+      return out;}
+    var bl=blur(blur(al,7),7);
+    return {N:N,al:al,bl:bl};
   }
-  /* ---------- pacing: the drawing follows the real load ---------- */
-  var disp=0,last=T0,done=false;
+  var SM=sample();
+  function layout(){
+    VW=innerWidth;VH=innerHeight;cv.width=Math.round(VW*DPR);cv.height=Math.round(VH*DPR);cv.style.width=VW+'px';cv.style.height=VH+'px';
+    L=Math.min(VW*.64,VH*.46,420);OX=VW/2-L/2;OY=VH*.42-L/2;
+    var cols=VW<700?46:60;S=L/cols;
+    var old=dots;dots=[];var N=SM.N,row=0,rnd=mulberry(7);
+    for(var y=0;y<=100;y+=100/cols*.866,row++){for(var x=(row%2?50/cols:0);x<=100;x+=100/cols){
+      var ix=Math.min(N-1,Math.round(x/100*N)),iy=Math.min(N-1,Math.round(y/100*N)),k=iy*N+ix;if(SM.al[k]<.5)continue;
+      var inner=Math.min(1,SM.bl[k]*1.15),yn=y/100,dir=Math.min(1,(x*.35+y*.65)/100);
+      /* dotwork shading: light from the top left, ink builds toward the bottom right; the rim stays crisp */
+      var f=.26+.86*(.66*dir+.34*inner)+(rnd()-.5)*.14;if(SM.bl[k]<.62)f=Math.max(f,.86);
+      var r=S*.5*Math.min(1.12,f);
+      var tx=OX+(x+(rnd()-.5)*.5*100/cols*.5)/100*L,ty=OY+(y+(rnd()-.5)*.5*100/cols*.5)/100*L;
+      var ang=rnd()*Math.PI*2,far=Math.max(VW,VH)*(.35+rnd()*.5);
+      dots.push({tx:tx,ty:ty,r:r,sx:VW/2+Math.cos(ang)*far*(.6+rnd()*.6),sy:VH*.42+Math.sin(ang)*far*(.6+rnd()*.6),
+        th:Math.min(.985,.62*yn+.3*rnd()+.04*Math.abs(x-50)/50),at:-1,ph:rnd()*6.28,mist:.3+rnd()*.9});}}
+    /* keep already-landed dots landed after a resize */
+    if(old.length){var landedShare=old.filter(function(d){return d.at>=0;}).length/old.length;dots.forEach(function(d){if(d.th<landedShare*.985)d.at=0;});}
+    var b=$('ldBrand');b.style.top=(OY+L+Math.max(14,L*.06))+'px';
+  }
+  function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+  layout();var rt;addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(layout,120);});
+  function eo(t){return t>=1?1:1-Math.pow(2,-10*t);}
+  /* ---------- pacing follows the real load ---------- */
+  var disp=0,last=T0,phase='build',wipeT=0,doneAt=0;
   function frame(now){
+    if(!ld.isConnected)return;
     var dt=Math.min(.05,(now-last)/1000);last=now;var t=(now-T0)/1000,r=real();
-    var creep=.94*(1-Math.exp(-t/4)); /* keeps moving while the network is slow */
-    var target=r>=1?1:Math.min(.95,Math.max(creep*.6,r*.75+.2*(1-Math.exp(-t/3))));
-    var speed=r>=1?1/.55:1/MINDRAW;
-    disp=Math.min(target,disp+Math.min(speed*dt,Math.max(.002,(target-disp)*.12+speed*dt*.5)));
-    draw(disp);
-    if(disp>=1&&!done){done=true;setTimeout(flood,140);return;}
+    if(phase==='build'){
+      var creep=.94*(1-Math.exp(-t/4)),target=r>=1?1:Math.min(.95,Math.max(creep*.6,r*.75+.2*(1-Math.exp(-t/3))));
+      var sp=r>=1?1/.5:1/MINDRAW;disp=Math.min(target,disp+Math.min(sp*dt,Math.max(.002,(target-disp)*.12+sp*dt*.5)));
+      pct.textContent=Math.round(disp*100)+'%';
+      if(disp>=1&&!doneAt){doneAt=now;ld.classList.add('done');}
+      if(doneAt&&now-doneAt>560){phase='wipe';wipeT=now;ld.classList.add('wipe');}
+    }
+    var c=cx;c.setTransform(DPR,0,0,DPR,0,0);c.clearRect(0,0,VW,VH);c.fillStyle='#0C0C0C';
+    /* landed dots hum like the needle; flying dots ease in from the ink mist */
+    c.beginPath();var tt=now/1000;
+    for(var i=0;i<dots.length;i++){var d=dots[i];
+      if(d.at<0&&disp>=d.th)d.at=now;
+      var x,y,rr;
+      if(d.at<0){x=d.sx+Math.sin(tt*.6+d.ph)*10;y=d.sy+Math.cos(tt*.5+d.ph)*10;rr=d.r*.34*d.mist;}
+      else{var u=d.at===0?1:eo((now-d.at)/750);x=d.sx+(d.tx-d.sx)*u;y=d.sy+(d.ty-d.sy)*u;rr=d.r*(.34*d.mist+(1-.34*d.mist)*u);
+        if(u>=1){var hm=.22;x+=Math.sin(tt*41+d.ph)*hm;y+=Math.cos(tt*37+d.ph*1.3)*hm;}}
+      c.moveTo(x+rr,y);c.arc(x,y,rr,0,6.2832);}
+    c.fill();
+    /* finale: a halftone screen grows from the mark until the page is solid ink */
+    if(phase==='wipe'){
+      var e=(now-wipeT)/1000,G=VW<700?12:15,cxm=OX+L/2,cym=OY+L*.55,maxd=Math.hypot(Math.max(cxm,VW-cxm),Math.max(cym,VH-cym)),front=eo(Math.min(1,e/.8))*(maxd+G*10);
+      c.beginPath();for(var gy=G/2;gy<VH+G;gy+=G)for(var gx=G/2;gx<VW+G;gx+=G){var dd=Math.hypot(gx-cxm,gy-cym),k=(front-dd)/(G*9);if(k<=0)continue;var R=Math.min(1,k)*G*.76;c.moveTo(gx+R,gy);c.arc(gx,gy,R,0,6.2832);}
+      c.fill();
+      if(e>.64&&!ld.classList.contains('out')){ld.classList.add('out');if(theme)theme.setAttribute('content','#0C0C0C');D.classList.remove('ld-wait');D.classList.add('ld-play');setTimeout(function(){D.classList.remove('ld-play');},2200);setTimeout(function(){ld.remove();},560);}
+    }
     requestAnimationFrame(frame);
   }
-  function reveal(){D.classList.remove('ld-wait');D.classList.add('ld-play');setTimeout(function(){D.classList.remove('ld-play');},2200);}
-  /* ---------- the ink floods out of the cat and becomes the site's black ---------- */
-  function flood(){
-    var b=$('ldArt').getBoundingClientRect(),cx=b.left+b.width*.5,cy=b.top+b.height*.62;
-    var far=Math.hypot(Math.max(cx,innerWidth-cx),Math.max(cy,innerHeight-cy))+40;
-    ink.style.setProperty('--x',cx+'px');ink.style.setProperty('--y',cy+'px');ink.style.setProperty('--r0',(b.width*.26)+'px');ink.style.setProperty('--r1',far+'px');
-    ink.classList.add('go');
-    setTimeout(function(){if(theme)theme.setAttribute('content','#0C0C0C');ld.remove();reveal();ink.classList.add('out');},reduce?120:760);
-    setTimeout(function(){ink.remove();},reduce?700:1400);
-  }
-  if(reduce){disp=1;draw(1);var iv=setInterval(function(){if(real()>=1||performance.now()-T0>CAP){clearInterval(iv);done=true;flood();}},80);return;}
+  if(reduce){dots.forEach(function(d){d.at=0;});disp=1;var iv=setInterval(function(){if(real()>=1||performance.now()-T0>CAP){clearInterval(iv);pct.textContent='100%';ld.classList.add('done');setTimeout(function(){ld.classList.add('out','fade');D.classList.remove('ld-wait');if(theme)theme.setAttribute('content','#0C0C0C');setTimeout(function(){ld.remove();},500);},400);}},80);
+    var c=cx;c.setTransform(DPR,0,0,DPR,0,0);c.fillStyle='#0C0C0C';c.beginPath();dots.forEach(function(d){c.moveTo(d.tx+d.r,d.ty);c.arc(d.tx,d.ty,d.r,0,6.2832);});c.fill();return;}
   requestAnimationFrame(function(n){last=n;frame(n);});
 })();
 </script>
 
 <header id="nav" aria-label="Main">
   <a class="logo g ink" href="#top" data-i18n-aria="toTop">
-    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 21V5l5 4h8l5-4v16z" fill="currentColor"/><rect x="7.5" y="12" width="2.2" height="3.4" rx="1.1" fill="#8F8A83"/><rect x="14.3" y="12" width="2.2" height="3.4" rx="1.1" fill="#8F8A83"/></svg>
+    <svg viewBox="0 0 100 100" width="22" height="22" aria-hidden="true"><path fill-rule="evenodd" fill="currentColor" d="M16 6L37 29C45 27 55 27 63 29L84 6C89 22 89 34 87 43C91 49 95 56 97 65L89.5 62.5C88 80 70 92 50 92C30 92 12 80 10.5 62.5L3 65C5 56 9 49 13 43C11 34 11 22 16 6ZM21 18L30 30L22 35ZM79 18L70 30L78 35ZM23 50C31 48.5 39 51 45.5 55.5C39 60 28 58.5 23 50ZM77 50C69 48.5 61 51 54.5 55.5C61 60 72 58.5 77 50ZM46.8 65.5H53.2L50 69.2ZM42.6 73.2L45.6 84.5L48.2 74.2ZM51.8 74.2L54.4 84.5L57.4 73.2Z"/><path fill="currentColor" d="M35.6 50.5C34.5 53 34.5 56.5 35.6 59C36.7 56.5 36.7 53 35.6 50.5ZM64.4 50.5C63.3 53 63.3 56.5 64.4 59C65.5 56.5 65.5 53 64.4 50.5Z"/></svg>
     <b>ZUBI</b>
   </a>
   <nav class="nav-links g" aria-label="Sections">
