@@ -1,6 +1,12 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0C0C0C">
+<meta name="description" content="ZUBI Tattoo, Warszawa. Autorskie tatuaże, fine line i blackwork. Zapisy online do czterech tatuatorów.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%228%22 fill=%22%23111%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-size=%2216%22 text-anchor=%22middle%22 fill=%22%23E9E4DD%22 font-family=%22serif%22%3EZ%3C/text%3E%3C/svg%3E">
 <title>ZUBI Tattoo</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600&display=swap">
@@ -423,12 +429,249 @@ form#bkForm{display:grid;gap:16px}
 .badge{position:absolute;top:2px;right:2px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#FAC775;color:#2a1c05;font:700 11px/18px var(--f-body);text-align:center}
 .fld .help{font-size:12px;color:var(--mut);line-height:1.45}
 
+/* ---------- intro loader: black cat playing with yarn ---------- */
+#ld{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:radial-gradient(70% 48% at 50% 56%,#1f1d1b 0%,#141312 55%,#0C0C0C 100%);clip-path:inset(0 0 0 0);transition:clip-path .75s cubic-bezier(.72,0,.18,1),opacity .4s ease;animation:ldFail .4s 9s forwards}
+#ld.lift{clip-path:inset(0 0 100% 0)}
+#ld.fade{opacity:0}
+@keyframes ldFail{to{opacity:0;visibility:hidden}}
+.ld-stage{position:relative;width:min(96vw,560px);aspect-ratio:308/118;translate:0 3vh}
+.ld-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.ld-text{position:absolute;left:50%;top:calc(100% + 30px);translate:-50% 0;display:grid;grid-template-columns:auto auto;gap:10px 16px;align-items:baseline;font:500 11px/1 var(--f-body);letter-spacing:.22em;text-transform:uppercase;color:#8F8A83;white-space:nowrap;transition:opacity .3s ease}
+.ld-text b{font-weight:500;color:#E9E4DD;font-variant-numeric:tabular-nums;letter-spacing:.08em;justify-self:end;min-width:4ch;text-align:right}
+.ld-text i{grid-column:1/-1;width:100%;height:1px;background:rgba(233,228,221,.14);overflow:hidden}
+.ld-text em{display:block;height:100%;background:#E9E4DD;transform-origin:0 50%;transform:scaleX(0)}
+#ld.lift .ld-text{opacity:0}
+/* site entrance after the loader */
+html.ld-wait #nav>.logo,html.ld-wait #nav>.nav-links,html.ld-wait #nav>.actions,html.ld-wait .hero-text>*,html.ld-wait #bar,html.ld-wait .hero .credit{opacity:0}
+html.ld-play #nav>.logo,html.ld-play #nav>.nav-links,html.ld-play #nav>.actions{animation:ldDown .8s cubic-bezier(.16,1,.3,1) both}
+html.ld-play #nav>.nav-links{animation-delay:.07s}html.ld-play #nav>.actions{animation-delay:.14s}
+html.ld-play .hero-text>*{animation:ldUp .95s cubic-bezier(.16,1,.3,1) both}
+html.ld-play .hero-text>:nth-child(1){animation-delay:.16s}html.ld-play .hero-text>:nth-child(2){animation-delay:.26s}html.ld-play .hero-text>:nth-child(3){animation-delay:.36s}
+html.ld-play #bar{animation:ldUp .9s .46s cubic-bezier(.16,1,.3,1) both}
+html.ld-play .hero .credit{animation:ldFade .8s .5s ease both}
+html.ld-play #heroImg{animation:ldImg 1.6s cubic-bezier(.16,1,.3,1) both}
+@keyframes ldDown{from{opacity:0;translate:0 -12px;filter:blur(6px)}to{opacity:1;translate:0 0;filter:none}}
+@keyframes ldUp{from{opacity:0;translate:0 26px;filter:blur(8px)}to{opacity:1;translate:0 0;filter:none}}
+@keyframes ldFade{from{opacity:0}to{opacity:1}}
+@keyframes ldImg{from{scale:1.08;filter:brightness(.55)}to{scale:1;filter:none}}
+@media (prefers-reduced-motion:reduce){#ld{transition:opacity .3s ease}html.ld-play #nav>*,html.ld-play .hero-text>*,html.ld-play #bar,html.ld-play .hero .credit,html.ld-play #heroImg{animation:none}}
+
+/* ---------- motion layer (v5) ---------- */
+/* hero headline: masked word reveal */
+.hero h1 .w{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .02em .1em;margin:0 -.02em -.1em}
+.hero h1 .w i{display:inline-block;font-style:normal;translate:0 105%;transition:translate 1.05s cubic-bezier(.16,1,.3,1) calc(var(--i,0) * 75ms + .1s)}
+html.hero-in .hero h1 .w i{translate:0 0}
+html.ld-wait .hero-text>h1{opacity:1!important}
+html.ld-play .hero-text>h1{animation:none!important}
+/* styles marquee: outlined display type, speed follows scroll velocity */
+.mq{margin:-14px calc(-1 * var(--gut-r)) 30px calc(-1 * var(--gut));overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);pointer-events:none}
+.mq-track{display:flex;width:max-content;animation:mq 34s linear infinite}
+.mq-run{display:flex;align-items:center}
+.mq span{font-family:var(--f-display);font-weight:600;font-size:clamp(46px,8.5vw,128px);line-height:1.05;letter-spacing:-.025em;white-space:nowrap;color:transparent;-webkit-text-stroke:1px rgba(233,228,221,.5);padding-right:.36em}
+.mq-dot{width:.16em;height:.16em;font-size:clamp(46px,8.5vw,128px);border-radius:50%;background:#E9E4DD;margin-right:.36em;flex:none}
+@keyframes mq{to{transform:translateX(-50%)}}
+/* scroll-driven reveals, native CSS where supported */
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion:no-preference){
+    .c:not(.hero) h2.pf{animation:rvH linear both;animation-timeline:view();animation-range:entry 0% entry 100%}
+    #workGrid .tile{animation:rvT linear both;animation-timeline:view();animation-range:entry 0% entry 100%}
+    #workGrid .tile img,#workGrid .tile video,.studio-img{animation:rvI linear both;animation-timeline:view();animation-range:cover 0% cover 100%}
+    #priceRows .row,.acard,.acompact,#details>div{animation:rvR linear both;animation-timeline:view();animation-range:entry 0% entry 100%}
+  }
+}
+@keyframes rvH{from{opacity:0;translate:0 44px;filter:blur(6px)}to{opacity:1;translate:0 0;filter:none}}
+@keyframes rvT{from{clip-path:inset(16% 0 0 0 round 16px);translate:0 34px}to{clip-path:inset(0 0 0 0 round 16px);translate:0 0}}
+@keyframes rvI{from{scale:1.16}to{scale:1}}
+@keyframes rvR{from{opacity:0;translate:0 26px}to{opacity:1;translate:0 0}}
+/* shared-element morph into the lightbox */
+::view-transition-group(zw){animation-duration:.6s;animation-timing-function:cubic-bezier(.16,1,.3,1)}
+::view-transition-old(zw),::view-transition-new(zw){height:100%;object-fit:cover;overflow:hidden;border-radius:14px}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.32s}
+/* film grain over everything: ink-and-paper texture */
+body::after{content:"";position:fixed;inset:-40%;z-index:94;pointer-events:none;opacity:.07;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){body::after{animation:grain .9s steps(4) infinite}}
+@keyframes grain{0%{translate:0 0}25%{translate:-2% 1.5%}50%{translate:1.5% -2%}75%{translate:-1% -1%}100%{translate:0 0}}
+/* desktop cursor label + magnetic buttons */
+.cur{position:fixed;left:0;top:0;z-index:97;width:0;height:0;pointer-events:none}
+.cur span{position:absolute;left:0;top:0;translate:-50% -50%;display:grid;place-items:center;min-width:88px;height:88px;padding:0 14px;border-radius:999px;background:#E9E4DD;color:#0C0C0C;font:600 12px/1 var(--f-body);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;scale:.2;opacity:0;transition:scale .4s cubic-bezier(.16,1,.3,1),opacity .2s ease}
+.cur.on span{scale:1;opacity:1}
+.mag{transition:translate .2s cubic-bezier(.16,1,.3,1)}
+.hero-cta .btn-fill,#bar .btn,.nav-cta{transition:translate .5s cubic-bezier(.16,1,.3,1),background-color .2s ease,color .2s ease}
+@media (prefers-reduced-motion:reduce){.hero h1 .w i{translate:none;transition:none}.mq-track{animation:none}}
+
 .tgrow p{margin:2px 0 8px}.tgrow b.ok{color:#8fd19a}.tgrow b.off{color:#d8b48a}
 .tg-cta{width:100%;justify-content:center;margin-top:4px}
 .login{display:grid;gap:16px;max-width:420px}
 div.info{padding:14px 16px;border:1px solid rgba(233,228,221,.16);border-radius:14px;line-height:1.5}
 .info a{color:inherit}
 </style>
+</head>
+<body>
+<div id="ld" role="status" aria-label="ZUBI Tattoo">
+  <div class="ld-stage">
+    <svg class="ld-svg" viewBox="6 62 308 118" aria-hidden="true">
+      <defs>
+        <radialGradient id="lcFloor" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#2a2725"/><stop offset=".6" stop-color="#1a1817"/><stop offset="1" stop-color="#1a1817" stop-opacity="0"/></radialGradient>
+        <radialGradient id="lcSh" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#000" stop-opacity=".7"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+        <filter id="lcRim" x="-20%" y="-20%" width="140%" height="140%"><feMorphology in="SourceAlpha" operator="dilate" radius=".55" result="d"/><feGaussianBlur in="d" stdDeviation=".35" result="b"/><feFlood flood-color="#E9E4DD" flood-opacity=".5"/><feComposite in2="b" operator="in" result="o"/><feMerge><feMergeNode in="o"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <ellipse cx="160" cy="152" rx="150" ry="34" fill="url(#lcFloor)"/>
+      <g id="lcScene">
+        <ellipse id="lcBallSh" cx="160" cy="151" rx="13" ry="3" fill="url(#lcSh)"/>
+        <ellipse id="lcCatSh" cx="160" cy="151" rx="34" ry="4.5" fill="url(#lcSh)"/>
+        <g id="lcBall" transform="translate(168 141)">
+          <path id="lcThread" d="M7 9c10 3 20 1 30 3s16 4 24 2" stroke="#B9B2A9" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+          <circle r="10" fill="#E9E4DD"/>
+          <g id="lcBallSpin" stroke="#A9A198" stroke-width="1" fill="none" stroke-linecap="round">
+            <path d="M-8 -4c5 3 11 3 16 0M-9 1c6 4 12 4 18 0M-7 6c5 2 9 2 14 0"/>
+            <path d="M-3 -9c-3 6-3 12 0 18M2 -9.6c3 6 3 13 0 19"/>
+          </g>
+          <circle r="10" fill="none" stroke="#fff" stroke-opacity=".25" stroke-width=".8"/>
+        </g>
+        <g id="lcCat" transform="translate(110 150)" fill="#050505"><g filter="url(#lcRim)">
+          <g id="lcRig">
+            <g id="lcHF" transform="translate(-32 -34)"><ellipse cx="0" cy="4" rx="9" ry="11"/><rect x="-4" y="0" width="8" height="16" rx="4"/><g class="k" transform="translate(0 15)"><rect x="-3.5" y="-1" width="7" height="17" rx="3.5"/><ellipse cx="2.5" cy="16.5" rx="5.5" ry="3"/></g></g>
+            <g id="lcFF" transform="translate(16 -30)"><rect x="-4" y="-5" width="8" height="19" rx="4"/><g class="k" transform="translate(0 14)"><rect x="-3.5" y="-1" width="7" height="15" rx="3.5"/><ellipse cx="2" cy="14.3" rx="5.2" ry="3"/></g></g>
+            <g id="lcTail" transform="translate(-38 -40)"></g>
+            <path d="M-42 -35c-2-12 14-19 34-18 18 1 30-1 40 8 8 7 7 20-4 23-14 3-38 3-56 1-10-1-13-6-14-14z"/>
+            <g id="lcHN" transform="translate(-26 -34)"><ellipse cx="0" cy="3" rx="11" ry="13"/><rect x="-4.5" y="0" width="9" height="16" rx="4.5"/><g class="k" transform="translate(0 15)"><rect x="-3.5" y="-1" width="7" height="17" rx="3.5"/><ellipse cx="2.5" cy="16.5" rx="5.5" ry="3"/></g></g>
+            <g id="lcFN" transform="translate(22 -30)"><rect x="-4.5" y="-6" width="9" height="20" rx="4.5"/><g class="k" transform="translate(0 14)"><rect x="-3.5" y="-1" width="7" height="15" rx="3.5"/><ellipse cx="2" cy="14.3" rx="5.2" ry="3"/></g></g>
+            <g id="lcHead" transform="translate(31 -45)">
+              <g transform="translate(9 -9)">
+                <path d="M-14 2c-1-12 7-18 17-18 9 0 14 5 15 11 4 1 7 5 5 8-2 4-8 6-16 6-11 0-20-1-21-7z"/>
+                <path d="M-11-10l1-17 10 12zM1-15l9-12 4 16z" stroke="#050505" stroke-width="2.4" stroke-linejoin="round"/>
+                <path d="M-9-13l1-9 5 6zM4-15l5-7 2 8z" fill="#1d1a19"/>
+                <g id="lcEye"><ellipse cx="9" cy="-4" rx="2.7" ry="2.3" fill="#E9E4DD"/><ellipse cx="9.6" cy="-4" rx=".85" ry="1.9" fill="#050505"/></g>
+                <ellipse cx="22.3" cy="-.3" rx="1.4" ry="1" fill="#2b2826"/>
+                <path d="M17 2.5c6-1 11-1.5 17-3.5M17 4.5c6 0 11 .5 16 2" stroke="#6F6A64" stroke-width=".55" fill="none" stroke-linecap="round"/>
+              </g>
+            </g>
+          </g>
+        </g></g>
+      </g>
+    </svg>
+    <div class="ld-text" aria-hidden="true"><span id="ldWord">Ładowanie</span><b id="ldPct">0%</b><i><em id="ldBar"></em></i></div>
+  </div>
+</div>
+<script>
+(function(){
+  var D=document.documentElement,ld=document.getElementById('ld'),q=location.search,h=location.hash,seen=false;
+  try{seen=sessionStorage.getItem('zubi-intro')==='1';}catch(e){}
+  var force=/[?&]intro\b/.test(q);
+  if(!force&&(seen||h==='#panel'||/[?&]b=/.test(q))){ld.remove();return;}
+  try{sessionStorage.setItem('zubi-intro','1');}catch(e){}
+  D.classList.add('ld-wait');
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var $=function(i){return document.getElementById(i);},T0=performance.now(),MIN=reduce?600:3300,CAP=7500;
+  /* ---------- loading progress + text ---------- */
+  var got={},W={fonts:.3,hero:.35,data:.35},ready=false,done=false;
+  function prog(){var s=0;for(var k in got)s+=W[k]||0;return Math.min(1,s);}
+  function step(k){if(got[k])return;got[k]=1;if(prog()>=.999)ready=true;}
+  var WORD={pl:'Ładowanie',uk:'Завантаження',en:'Loading',ru:'Загрузка'},lg='';
+  try{lg=localStorage.getItem('zubi-lang')||'';}catch(e){}
+  if(!WORD[lg]){var nl=(navigator.language||'pl').slice(0,2);lg=WORD[nl]?nl:'pl';}
+  $('ldWord').textContent=WORD[lg];
+  var shown=0,pctEl=$('ldPct'),barEl=$('ldBar');
+  function drawPct(now){var el=now-T0;var target=done||(ready&&el>=MIN)?100:Math.min(95,Math.max(prog()*100*Math.min(1,el/MIN),el/MIN*70));shown+=(target-shown)*.08;if(Math.abs(target-shown)<.4)shown=target;pctEl.textContent=Math.round(shown)+'%';barEl.style.transform='scaleX('+(shown/100).toFixed(3)+')';}
+  function reveal(){D.classList.remove('ld-wait');D.classList.add('ld-play');setTimeout(function(){D.classList.remove('ld-play');},2200);}
+  window.ZL={step:step,finish:function(){ready=true;}};
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){step('fonts');});else step('fonts');
+  addEventListener('DOMContentLoaded',function(){var im=$('heroImg');if(!im||im.complete)step('hero');else{im.addEventListener('load',function(){step('hero');});im.addEventListener('error',function(){step('hero');});}});
+  setTimeout(function(){ready=true;},CAP-3000);
+
+  /* ---------- the cat rig ---------- */
+  var cat=$('lcCat'),rig=$('lcRig'),head=$('lcHead'),eye=$('lcEye'),scene=$('lcScene'),ballG=$('lcBall'),spin=$('lcBallSpin'),thread=$('lcThread'),catSh=$('lcCatSh'),ballSh=$('lcBallSh');
+  var LG={hn:$('lcHN'),hf:$('lcHF'),fn:$('lcFN'),ff:$('lcFF')},K={},P={hn:[-26,-34],hf:[-32,-34],fn:[22,-30],ff:[16,-30]},KY={hn:15,hf:15,fn:14,ff:14};
+  for(var k in LG)K[k]=LG[k].querySelector('.k');
+  var tail=[],parent=$('lcTail'),NS='http://www.w3.org/2000/svg';
+  for(var i=0;i<7;i++){var g=document.createElementNS(NS,'g');var w=6.4-i*.55;var r=document.createElementNS(NS,'rect');r.setAttribute('x',-w/2);r.setAttribute('y',-11);r.setAttribute('width',w);r.setAttribute('height',12.5);r.setAttribute('rx',w/2);g.appendChild(r);parent.appendChild(g);tail.push(g);parent=g;}
+  var TAILBASE=[-62,10,12,12,14,22,34];
+  function f2(n){return n.toFixed(2);}
+  function legs(o){for(var k in LG){LG[k].setAttribute('transform','translate('+P[k][0]+' '+P[k][1]+') rotate('+f2(o[k][0])+')');K[k].setAttribute('transform','translate(0 '+KY[k]+') rotate('+f2(o[k][1])+')');}}
+  function lift(p){return Math.max(0,-Math.cos(p));}
+  function walkPose(ph){var a=ph,b=ph+Math.PI/2,c=ph+Math.PI,d=ph+1.5*Math.PI;
+    return {hn:[-14+20*Math.sin(a),24+30*lift(a)],fn:[24*Math.sin(b),42*lift(b)],hf:[-14+20*Math.sin(c),24+30*lift(c)],ff:[24*Math.sin(d),42*lift(d)]};}
+  function mix(a,b,t){var o={};for(var k in a)o[k]=[a[k][0]+(b[k][0]-a[k][0])*t,a[k][1]+(b[k][1]-a[k][1])*t];return o;}
+  var STAND={hn:[-14,24],hf:[-14,24],fn:[0,0],ff:[0,0]},CROUCH={hn:[-38,70],hf:[-38,70],fn:[-26,58],ff:[-26,58]},
+      LEAP={hn:[52,8],hf:[56,6],fn:[-118,-10],ff:[-104,-6]},POUNCE={hn:[46,10],hf:[48,8],fn:[-78,-18],ff:[-70,-12]},
+      LAND={hn:[-20,30],hf:[-20,30],fn:[-38,10],ff:[-30,6]};
+  function ease(t){return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;}
+  function eout(t){return 1-Math.pow(1-t,3);}
+  function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+
+  /* ---------- world ---------- */
+  var FLOOR=150,RX=78,RY=20,TAU=Math.PI*2;
+  var S={x:0,y:FLOOR,depth:1,face:-1,fx:-1,ph:0,bob:0,lift:0,headA:0,crouch:0,rigA:0,legsO:STAND,tailWag:1,blinkAt:T0+1400,hit:0};
+  var B={x:168,v:0,rot:0};
+  var front=true;
+  function render(now){
+    var s=.8+.2*(S.depth+1)/2;S.fx+=clamp(S.face-S.fx,-.13,.13);var sx=S.fx;if(Math.abs(sx)<.34)sx=sx<0?-.34:.34;
+    cat.setAttribute('transform','translate('+f2(S.x)+' '+f2(S.y-S.lift)+') scale('+(s*sx).toFixed(3)+' '+s.toFixed(3)+')');
+    rig.setAttribute('transform','translate(0 '+f2(S.bob+S.crouch*7)+') rotate('+f2(S.rigA)+' 20 -30)');
+    head.setAttribute('transform','translate(31 '+f2(-45+S.crouch*3)+') rotate('+f2(S.headA)+')');
+    legs(S.legsO);
+    var t=now/1000;for(var i=0;i<tail.length;i++){var a=TAILBASE[i]+S.tailWag*(6+i*1.6)*Math.sin(t*2.6-i*.55);tail[i].setAttribute('transform',(i?'translate(0 -10) ':'')+'rotate('+f2(a)+')');}
+    if(now>S.blinkAt){eye.setAttribute('transform','translate(0 -4) scale(1 .12) translate(0 4)');if(now>S.blinkAt+130){eye.removeAttribute('transform');S.blinkAt=now+2200+Math.random()*2200;}}
+    var up=S.lift>0?Math.max(.2,1-S.lift/70):1;
+    catSh.setAttribute('cx',f2(S.x));catSh.setAttribute('cy',f2(S.y+1));catSh.setAttribute('rx',f2(36*s*up));catSh.setAttribute('opacity',up.toFixed(2));
+    ballG.setAttribute('transform','translate('+f2(B.x)+' '+(FLOOR-9)+')');spin.setAttribute('transform','rotate('+B.rot.toFixed(1)+')');
+    thread.setAttribute('transform','rotate('+f2(clamp(B.v*.08,-8,8))+')');ballSh.setAttribute('cx',f2(B.x));
+    var fr=S.depth>=0;if(fr!==front){front=fr;if(fr)scene.appendChild(cat);else scene.insertBefore(cat,ballG);}
+  }
+  function ballPhys(dt){B.x+=B.v*dt;B.rot+=B.v*dt/10*57.3;B.v*=Math.exp(-2.4*dt);if(B.x<92){B.x=92;B.v=Math.abs(B.v)*.4;}if(B.x>228){B.x=228;B.v=-Math.abs(B.v)*.4;}if(Math.abs(B.v)<.5)B.v=0;}
+
+  /* ---------- choreography: walk around the yarn, stalk, pounce, swat, repeat ---------- */
+  var phase,pt0,P0={},walk={},finaleDone=false;
+  function go(name,now){phase=name;pt0=now;P0={x:S.x,legs:S.legsO,headA:S.headA};}
+  function pos(th,cx){return {x:cx+RX*Math.cos(th),y:FLOOR+RY*Math.sin(th),d:Math.sin(th)};}
+  function startWalk(now,a,b){var cx=clamp(B.x+B.v/2.4,122,198);walk={a:a,b:b,cx:cx,sx:S.x,sy:S.y,sd:S.depth,dur:Math.abs(b-a)*RX*.55/112};go('walk',now);}
+  var lastNow=T0;
+  function frame(now){
+    if(!ld.isConnected)return;
+    var dt=Math.min(.05,(now-lastNow)/1000);lastNow=now;var e=(now-pt0)/1000;
+    ballPhys(dt);
+    var canEnd=ready&&(now-T0)>=MIN;
+    if(phase==='walk'){
+      var u=clamp(e/walk.dur,0,1),th=walk.a+(walk.b-walk.a)*ease(u),p=pos(th,walk.cx),bl=eout(clamp(u/.22,0,1));
+      var nx=walk.sx+(p.x-walk.sx)*bl,ny=walk.sy+(p.y-walk.sy)*bl,nd=walk.sd+(p.d-walk.sd)*bl;
+      var dx=nx-S.x;if(Math.abs(dx)>.03)S.face=dx>0?1:-1;
+      var spd=Math.hypot(dx,ny-S.y)/Math.max(dt,.001),sc=.8+.2*(nd+1)/2;
+      S.ph+=TAU*spd*dt/(26*sc);S.x=nx;S.y=ny;S.depth=nd;var amp=clamp(spd/55,0,1);
+      S.legsO=mix(STAND,walkPose(S.ph),amp);S.bob=-1.2*Math.abs(Math.sin(S.ph))*amp;S.headA=3+2.5*Math.sin(S.ph*2)*amp;S.crouch=0;S.rigA=0;S.tailWag=1;S.lift=0;
+      if(u>=1)go('turn',now);else if(canEnd&&u>.1&&u<.9)go('finale',now);
+    }else if(phase==='turn'){
+      S.face=B.x>S.x?1:-1;S.legsO=mix(P0.legs,STAND,eout(clamp(e/.2,0,1)));S.bob*=.8;S.headA=3;
+      if(e>.26)go(canEnd?'finale':'stalk',now);
+    }else if(phase==='stalk'){
+      var c=eout(clamp(e/.25,0,1));S.crouch=c;S.legsO=mix(STAND,CROUCH,c);S.headA=-8*c+2*Math.sin(e*9);
+      S.rigA=c*(-5+3.2*Math.sin(e*30));S.tailWag=1.9;S.face=B.x>S.x?1:-1;
+      if(e>.64)go('pounce',now);
+    }else if(phase==='pounce'){
+      var du=.34,u2=clamp(e/du,0,1),hop=Math.sin(Math.PI*u2),tx=B.x-S.face*26;
+      S.x=P0.x+(tx-P0.x)*eout(u2);S.lift=18*hop;S.crouch=(1-u2)*.4;S.rigA=-6*hop;S.headA=-6;S.tailWag=1.4;
+      S.legsO=u2<.75?mix(CROUCH,POUNCE,eout(clamp(u2/.35,0,1))):mix(POUNCE,LAND,eout((u2-.75)/.25));
+      if(u2>=1&&!S.hit){S.hit=1;B.v=S.face*(84+Math.random()*20);}
+      if(e>du+.05){S.hit=0;S.lift=0;go('swat',now);}
+    }else if(phase==='swat'){
+      var u3=clamp(e/.44,0,1),sw=Math.sin(Math.PI*u3),o=mix(LAND,STAND,eout(u3));
+      o.fn=[-38-62*sw,10+30*sw];S.legsO=o;S.crouch=.3*(1-u3);S.headA=-4+8*u3;S.rigA=-3*(1-u3);S.tailWag=1.2;
+      if(e>.5){if(canEnd){go('finale',now);}else{var cx=clamp(B.x+B.v/2.4,122,198);var cur=Math.atan2((S.y-FLOOR)/RY,(S.x-cx)/RX);if(Math.abs(Math.sin(cur))<.3)cur=Math.cos(cur)<0?.8*Math.PI:.2*Math.PI;
+        startWalk(now,cur,cur+(Math.cos(cur)<0?1:-1)*1.55*Math.PI);}}
+    }else if(phase==='finale'){
+      done=true;var a1=.16,a2=.26;S.tailWag=.6;
+      if(e<a1){var c1=eout(e/a1);S.legsO=mix(P0.legs,STAND,c1);S.headA=P0.headA+(-26-P0.headA)*c1;S.bob*=.7;S.rigA=-8*c1;S.lift=0;}
+      else if(e<a1+a2){var c2=eout((e-a1)/a2);S.crouch=c2*1.2;S.legsO=mix(STAND,CROUCH,c2);S.headA=-28;S.rigA=-8-6*c2;}
+      else{var j=(e-a1-a2)/.62,c3=clamp(j,0,1);S.crouch=1.2*(1-eout(clamp(j*4,0,1)));S.legsO=mix(CROUCH,LEAP,eout(clamp(j*3,0,1)));S.lift=eout(c3)*380;S.rigA=-14-58*eout(c3);S.headA=-28;
+        if(!finaleDone&&j>.16){finaleDone=true;ld.classList.add('lift');reveal();setTimeout(function(){ld.remove();},950);}}
+    }
+    render(now);drawPct(now);requestAnimationFrame(frame);
+  }
+  var a0=.66*Math.PI,p0=pos(a0,clamp(B.x,122,198));S.x=p0.x;S.y=p0.y;S.depth=p0.d;
+  if(reduce){render(T0);var iv=setInterval(function(){drawPct(performance.now());if(ready&&performance.now()-T0>=MIN){clearInterval(iv);done=true;ld.classList.add('fade');reveal();setTimeout(function(){ld.remove();},450);}},60);return;}
+  startWalk(T0,a0,a0+1.6*Math.PI);
+  requestAnimationFrame(frame);
+})();
+</script>
 
 <header id="nav" aria-label="Main">
   <a class="logo g ink" href="#top" data-i18n-aria="toTop">
@@ -469,6 +712,7 @@ div.info{padding:14px 16px;border:1px solid rgba(233,228,221,.16);border-radius:
   </section>
 
   <section class="c work" id="work" data-t="dark">
+    <div class="mq" id="mq" aria-hidden="true"></div>
     <div class="head"><h2 class="pf" data-i18n="work">Selected work</h2><span class="mut" style="font-size:13px;font-weight:500" data-i18n="pieces">120 pieces</span></div>
     <div class="grid" id="workGrid"></div>
     <button class="btn btn-fill" id="galleryOpen" data-i18n="viewAll">View all work →</button>
@@ -582,7 +826,7 @@ const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;'
 const clone=o=>JSON.parse(JSON.stringify(o));
 const pad2=n=>String(n).padStart(2,'0');
 const S={lang:'pl',content:clone(DEF.content),artists:clone(DEF.artists),works:clone(DEF.works),slots:[],mine:[],all:[],db:null,user:null,assets:null,uid:null,admin:false,realArtists:false,realWorks:false};
-const X={"pl": {"tgConnect": "Powiadomienia w Telegramie", "tgConnectD": "Bot studia wyśle potwierdzenie, zmiany i przypomnienie dzień przed wizytą.", "pass": "Hasło studia", "login": "Wejdź", "badPass": "Nieprawidłowe hasło.", "noPass": "Hasło nie jest ustawione. Dodaj ADMIN_PASSWORD w ustawieniach Vercel.", "botTitle": "Bot w Telegramie", "botOff": "Bot nie jest jeszcze podłączony do strony.", "botConnect": "Podłącz bota", "botNoToken": "Brak tokenu bota. Dodaj TELEGRAM_BOT_TOKEN w ustawieniach Vercel i opublikuj ponownie.", "botBad": "Telegram nie przyjął tokenu. Sprawdź go w @BotFather.", "tgCount": "podłączeni tatuatorzy: {n} z {m}", "tgLinked": "Podłączony ✓", "tgNot": "Niepodłączony", "tgCopy": "Kopiuj link", "openTg": "Otwórz w Telegramie", "tgUnlink": "Odłącz", "tgSend": "Tatuator otwiera ten link na swoim telefonie i naciska Start. Od tej chwili dostaje tylko swoje rezerwacje.", "aLang": "Język powiadomień", "noRedis": "Baza danych nie jest jeszcze podłączona: rezerwacje nie zapiszą się. Podłącz Upstash Redis w Vercel → Storage.", "errNet": "Nie udało się wysłać. Sprawdź internet i spróbuj jeszcze raz.", "logout": "Wyloguj"}, "uk": {"tgConnect": "Сповіщення в Telegram", "tgConnectD": "Бот студії надішле підтвердження, зміни й нагадування за день до візиту.", "pass": "Пароль студії", "login": "Увійти", "badPass": "Неправильний пароль.", "noPass": "Пароль не задано. Додайте ADMIN_PASSWORD у налаштуваннях Vercel.", "botTitle": "Бот у Telegram", "botOff": "Бот ще не підключений до сайту.", "botConnect": "Підключити бота", "botNoToken": "Немає токена бота. Додайте TELEGRAM_BOT_TOKEN у налаштуваннях Vercel і зробіть redeploy.", "botBad": "Telegram не прийняв токен. Перевірте його в @BotFather.", "tgCount": "підключено майстрів: {n} з {m}", "tgLinked": "Підключено ✓", "tgNot": "Не підключено", "tgCopy": "Копіювати посилання", "openTg": "Відкрити в Telegram", "tgUnlink": "Відключити", "tgSend": "Майстер відкриває це посилання на своєму телефоні й натискає Start. Відтоді отримує лише свої записи.", "aLang": "Мова сповіщень", "noRedis": "База даних ще не підключена: записи не збережуться. Підключіть Upstash Redis у Vercel → Storage.", "errNet": "Не вдалося надіслати. Перевірте інтернет і спробуйте ще раз.", "logout": "Вийти"}, "en": {"tgConnect": "Telegram notifications", "tgConnectD": "The studio bot sends the confirmation, any changes and a reminder the day before.", "pass": "Studio password", "login": "Sign in", "badPass": "Wrong password.", "noPass": "No password set. Add ADMIN_PASSWORD in Vercel settings.", "botTitle": "Telegram bot", "botOff": "The bot isn't connected to the site yet.", "botConnect": "Connect bot", "botNoToken": "No bot token. Add TELEGRAM_BOT_TOKEN in Vercel settings and redeploy.", "botBad": "Telegram rejected the token. Check it in @BotFather.", "tgCount": "artists connected: {n} of {m}", "tgLinked": "Connected ✓", "tgNot": "Not connected", "tgCopy": "Copy link", "openTg": "Open in Telegram", "tgUnlink": "Disconnect", "tgSend": "The artist opens this link on their phone and taps Start. From then on they get only their own bookings.", "aLang": "Notification language", "noRedis": "The database isn't connected yet, so bookings won't save. Connect Upstash Redis in Vercel → Storage.", "errNet": "Couldn't send. Check your connection and try again.", "logout": "Sign out"}, "ru": {"tgConnect": "Уведомления в Telegram", "tgConnectD": "Бот студии пришлёт подтверждение, изменения и напоминание за день до визита.", "pass": "Пароль студии", "login": "Войти", "badPass": "Неверный пароль.", "noPass": "Пароль не задан. Добавьте ADMIN_PASSWORD в настройках Vercel.", "botTitle": "Бот в Telegram", "botOff": "Бот ещё не подключён к сайту.", "botConnect": "Подключить бота", "botNoToken": "Нет токена бота. Добавьте TELEGRAM_BOT_TOKEN в настройках Vercel и сделайте redeploy.", "botBad": "Telegram не принял токен. Проверьте его в @BotFather.", "tgCount": "подключено мастеров: {n} из {m}", "tgLinked": "Подключён ✓", "tgNot": "Не подключён", "tgCopy": "Копировать ссылку", "openTg": "Открыть в Telegram", "tgUnlink": "Отключить", "tgSend": "Мастер открывает эту ссылку на своём телефоне и нажимает Start. С этого момента получает только свои записи.", "aLang": "Язык уведомлений", "noRedis": "База данных ещё не подключена: записи не сохранятся. Подключите Upstash Redis в Vercel → Storage.", "errNet": "Не удалось отправить. Проверьте интернет и попробуйте ещё раз.", "logout": "Выйти"}};Object.keys(X).forEach(l=>Object.assign(L[l],X[l]));
+const X={"pl": {"tgConnect": "Powiadomienia w Telegramie", "tgConnectD": "Bot studia wyśle potwierdzenie, zmiany i przypomnienie dzień przed wizytą.", "pass": "Hasło studia", "login": "Wejdź", "badPass": "Nieprawidłowe hasło.", "noPass": "Hasło nie jest ustawione. Dodaj ADMIN_PASSWORD w ustawieniach Vercel.", "botTitle": "Bot w Telegramie", "botOff": "Bot nie jest jeszcze podłączony do strony.", "botConnect": "Podłącz bota", "botNoToken": "Brak tokenu bota. Dodaj TELEGRAM_BOT_TOKEN w ustawieniach Vercel i opublikuj ponownie.", "botBad": "Telegram nie przyjął tokenu. Sprawdź go w @BotFather.", "tgCount": "podłączeni tatuatorzy: {n} z {m}", "tgLinked": "Podłączony ✓", "tgNot": "Niepodłączony", "tgCopy": "Kopiuj link", "openTg": "Otwórz w Telegramie", "tgUnlink": "Odłącz", "tgSend": "Tatuator otwiera ten link na swoim telefonie i naciska Start. Od tej chwili dostaje tylko swoje rezerwacje.", "aLang": "Język powiadomień", "noRedis": "Baza danych nie jest jeszcze podłączona: rezerwacje nie zapiszą się. Podłącz Upstash Redis w Vercel → Storage.", "errNet": "Nie udało się wysłać. Sprawdź internet i spróbuj jeszcze raz.", "logout": "Wyloguj", "booksySoon": "Link do Booksy pojawi się wkrótce. Napisz do nas, umówimy termin.", "booksyHelp": "Link do profilu tatuatora w Booksy. Puste: przycisk otworzy link studia z zakładki Kontakty.", "cView": "Zobacz", "note": "Zapis odbywa się przez Booksy: wybierz tatuatora i wolny termin.", "bookingV": "Online przez Booksy", "mArtistsS": "Zapis przez Booksy"}, "uk": {"tgConnect": "Сповіщення в Telegram", "tgConnectD": "Бот студії надішле підтвердження, зміни й нагадування за день до візиту.", "pass": "Пароль студії", "login": "Увійти", "badPass": "Неправильний пароль.", "noPass": "Пароль не задано. Додайте ADMIN_PASSWORD у налаштуваннях Vercel.", "botTitle": "Бот у Telegram", "botOff": "Бот ще не підключений до сайту.", "botConnect": "Підключити бота", "botNoToken": "Немає токена бота. Додайте TELEGRAM_BOT_TOKEN у налаштуваннях Vercel і зробіть redeploy.", "botBad": "Telegram не прийняв токен. Перевірте його в @BotFather.", "tgCount": "підключено майстрів: {n} з {m}", "tgLinked": "Підключено ✓", "tgNot": "Не підключено", "tgCopy": "Копіювати посилання", "openTg": "Відкрити в Telegram", "tgUnlink": "Відключити", "tgSend": "Майстер відкриває це посилання на своєму телефоні й натискає Start. Відтоді отримує лише свої записи.", "aLang": "Мова сповіщень", "noRedis": "База даних ще не підключена: записи не збережуться. Підключіть Upstash Redis у Vercel → Storage.", "errNet": "Не вдалося надіслати. Перевірте інтернет і спробуйте ще раз.", "logout": "Вийти", "booksySoon": "Посилання на Booksy з'явиться незабаром. Напишіть нам, і ми домовимося про час.", "booksyHelp": "Посилання на профіль майстра в Booksy. Порожньо: кнопка відкриє посилання студії з вкладки «Контакти».", "cView": "Дивитись", "note": "Запис відбувається через Booksy: оберіть майстра й вільний час.", "bookingV": "Онлайн через Booksy", "mArtistsS": "Запис через Booksy"}, "en": {"tgConnect": "Telegram notifications", "tgConnectD": "The studio bot sends the confirmation, any changes and a reminder the day before.", "pass": "Studio password", "login": "Sign in", "badPass": "Wrong password.", "noPass": "No password set. Add ADMIN_PASSWORD in Vercel settings.", "botTitle": "Telegram bot", "botOff": "The bot isn't connected to the site yet.", "botConnect": "Connect bot", "botNoToken": "No bot token. Add TELEGRAM_BOT_TOKEN in Vercel settings and redeploy.", "botBad": "Telegram rejected the token. Check it in @BotFather.", "tgCount": "artists connected: {n} of {m}", "tgLinked": "Connected ✓", "tgNot": "Not connected", "tgCopy": "Copy link", "openTg": "Open in Telegram", "tgUnlink": "Disconnect", "tgSend": "The artist opens this link on their phone and taps Start. From then on they get only their own bookings.", "aLang": "Notification language", "noRedis": "The database isn't connected yet, so bookings won't save. Connect Upstash Redis in Vercel → Storage.", "errNet": "Couldn't send. Check your connection and try again.", "logout": "Sign out", "booksySoon": "The Booksy link is coming soon. Message us and we'll find a time.", "booksyHelp": "Link to the artist's Booksy profile. Empty: the button opens the studio link from Contacts.", "cView": "View", "note": "Booking happens on Booksy: pick an artist and a free time.", "bookingV": "Online via Booksy", "mArtistsS": "Book via Booksy"}, "ru": {"tgConnect": "Уведомления в Telegram", "tgConnectD": "Бот студии пришлёт подтверждение, изменения и напоминание за день до визита.", "pass": "Пароль студии", "login": "Войти", "badPass": "Неверный пароль.", "noPass": "Пароль не задан. Добавьте ADMIN_PASSWORD в настройках Vercel.", "botTitle": "Бот в Telegram", "botOff": "Бот ещё не подключён к сайту.", "botConnect": "Подключить бота", "botNoToken": "Нет токена бота. Добавьте TELEGRAM_BOT_TOKEN в настройках Vercel и сделайте redeploy.", "botBad": "Telegram не принял токен. Проверьте его в @BotFather.", "tgCount": "подключено мастеров: {n} из {m}", "tgLinked": "Подключён ✓", "tgNot": "Не подключён", "tgCopy": "Копировать ссылку", "openTg": "Открыть в Telegram", "tgUnlink": "Отключить", "tgSend": "Мастер открывает эту ссылку на своём телефоне и нажимает Start. С этого момента получает только свои записи.", "aLang": "Язык уведомлений", "noRedis": "База данных ещё не подключена: записи не сохранятся. Подключите Upstash Redis в Vercel → Storage.", "errNet": "Не удалось отправить. Проверьте интернет и попробуйте ещё раз.", "logout": "Выйти", "booksySoon": "Ссылка на Booksy скоро появится. Напишите нам, и мы договоримся о времени.", "booksyHelp": "Ссылка на профиль мастера в Booksy. Пусто: кнопка откроет ссылку студии из вкладки «Контакты».", "cView": "Смотреть", "note": "Запись проходит через Booksy: выберите мастера и свободное время.", "bookingV": "Онлайн через Booksy", "mArtistsS": "Запись через Booksy"}};Object.keys(X).forEach(l=>Object.assign(L[l],X[l]));
 S.key=null;try{S.key=sessionStorage.getItem('zubi-admin')}catch(e){}
 S.live=false;S.bot=null;S.tg={};S.links={};S.botToken=false;
 S.downloads={save:async({filename,data})=>{const u=URL.createObjectURL(new Blob([data],{type:'text/calendar'}));const a=document.createElement('a');a.href=u;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);}};
@@ -662,7 +906,7 @@ function renderArtists(){
   $('#artistList').innerHTML=h+'</div>';
 }
 function socialLinks(){
-  const so=socials(), out=[];
+  const so=socials(), out=[];if(/^https?:/.test(String(so.booksy||'')))out.push({k:'booksy',label:'Booksy',href:so.booksy});
   if(so.whatsapp)out.push({k:'whatsapp',label:'WhatsApp',href:'https://wa.me/'+digits(so.whatsapp)});
   if(so.telegram)out.push({k:'telegram',label:'Telegram',href:'https://t.me/'+String(so.telegram).replace(/^@/,'')});
   if(so.instagram)out.push({k:'instagram',label:'Instagram',href:'https://instagram.com/'+String(so.instagram).replace(/^@/,'')});
@@ -684,7 +928,7 @@ function renderImages(){
   const h=src(S.content.hero)||'img/hero_wings.jpg', st=src(S.content.studio)||'img/studio.jpg';
   $('#heroImg').src=h; $$('.studio-img').forEach(i=>{i.src=st;});
 }
-function renderMenuExtras(){const n=S.admin?S.all.filter(x=>x.status==='new').length:0;let bd=$('#menuOpen .badge');if(n){if(!bd){bd=document.createElement('span');bd.className='badge';$('#menuOpen').appendChild(bd);}bd.textContent=n;$('#menuPanel b').textContent=tx('mPanel')+' ('+n+')';}else{if(bd)bd.remove();if($('#menuPanel b'))$('#menuPanel b').textContent=tx('mPanel');}
+function renderMenuExtras(){const n=0;let bd=$('#menuOpen .badge');if(n){if(!bd){bd=document.createElement('span');bd.className='badge';$('#menuOpen').appendChild(bd);}bd.textContent=n;$('#menuPanel b').textContent=tx('mPanel')+' ('+n+')';}else{if(bd)bd.remove();if($('#menuPanel b'))$('#menuPanel b').textContent=tx('mPanel');}
   $('#menuMine').hidden=!S.mine.length; $('#menuPanel').hidden=!S.admin; $('#footPanel').hidden=false;
 }
 function editingAdmin(){const a=document.activeElement;return !!(a&&$('#adBody').contains(a)&&/INPUT|TEXTAREA|SELECT/.test(a.tagName));}
@@ -842,7 +1086,7 @@ function renderMine(){
 function ask(text,yes,onYes){const d=$('#ask');$('#askText').textContent=text;$('#askYes').textContent=yes;$('#askNo').textContent=tx('keep');d.hidden=false;$('#askYes').onclick=()=>{d.hidden=true;onYes();};$('#askNo').onclick=()=>{d.hidden=true;};$('#askNo').focus();}
 
 /* ---------- admin ---------- */
-let AD={tab:'bookings',flt:'new',art:'',editLang:'pl',showAll:false,schedArt:null};
+let AD={tab:'artists',flt:'new',art:'',editLang:'pl',showAll:false,schedArt:null};
 function msgFor(it,kind){const a=artist(it.artistId);return fmt(DEF.msg[kind][it.clang]||DEF.msg[kind].pl,{name:it.name,date:dLong(it.date,it.clang),time:it.time,artist:a?a.name:''});}
 function clientLink(it,text){const v=String(it.contact||'').trim();const enc=encodeURIComponent(text||'');
   switch(it.method){case'whatsapp':return'https://wa.me/'+digits(v)+(text?'?text='+enc:'');case'telegram':return /^@?[A-Za-z]/.test(v)?'https://t.me/'+v.replace(/^@/,''):'https://t.me/+'+digits(v);case'instagram':return'https://ig.me/m/'+v.replace(/^@/,'');default:return'';}}
@@ -878,7 +1122,7 @@ function langTabs(id){return '<div class="chips" role="radiogroup" aria-label="'
 function adminArtists(){
   const el=AD.editLang;
   return '<div class="ad-filters"><span class="mut">'+esc(tx('editLang'))+'</span>'+langTabs('elang')+'</div>'+sortedArtists().map((a,i,arr)=>'<article class="bcard ed" data-art="'+esc(a.id)+'"><div class="ed-top"><span class="av'+(a.photo?' has':'')+'"'+avatarStyle(a)+'></span><label class="upl btn btn-line btn-sm">'+esc(tx('changePhoto'))+'<input type="file" accept="image/*" data-art-photo="'+esc(a.id)+'" hidden></label><div class="ord"><button class="mini" data-art-up="'+esc(a.id)+'" '+(i?'':'disabled')+' aria-label="'+esc(tx('up'))+'">↑</button><button class="mini" data-art-down="'+esc(a.id)+'" '+(i<arr.length-1?'':'disabled')+' aria-label="'+esc(tx('down'))+'">↓</button></div></div>'+
-    '<label class="fld"><span>'+esc(tx('aName'))+'</span><input data-f="name" value="'+esc(a.name)+'"></label><label class="fld"><span>'+esc(tx('aStyle'))+' ('+CODES[el]+')</span><input data-f="style" value="'+esc((a.style||{})[el]||'')+'"></label>'+tgRow(a)+'<label class="check"><input type="checkbox" data-f="booking"'+(a.booking!==false?' checked':'')+'><span>'+esc(tx('aOn'))+'</span></label>'+
+    '<label class="fld"><span>'+esc(tx('aName'))+'</span><input data-f="name" value="'+esc(a.name)+'"></label><label class="fld"><span>'+esc(tx('aStyle'))+' ('+CODES[el]+')</span><input data-f="style" value="'+esc((a.style||{})[el]||'')+'"></label>'+booksyRow(a)+'<label class="check"><input type="checkbox" data-f="booking"'+(a.booking!==false?' checked':'')+'><span>'+esc(tx('aOn'))+'</span></label>'+
     '<div class="row-btns"><button class="btn btn-fill btn-sm" data-art-save="'+esc(a.id)+'">'+esc(tx('save'))+'</button><button class="btn btn-line btn-sm danger" data-art-del="'+esc(a.id)+'">'+esc(tx('remove'))+'</button></div></article>').join('')+'<button class="btn btn-line" data-art-add>+ '+esc(tx('addArtist'))+'</button>';}
 function adminWorks(){
   const el=AD.editLang;const arts=sortedArtists();
@@ -895,7 +1139,7 @@ function adminTexts(){
   h+='<h3 class="ad-h">'+esc(tx('images'))+'</h3><div class="imgs">'+[['hero','heroImg'],['studio','studioImg']].map(([k,lab])=>'<div class="imgc"><img src="'+esc(src(S.content[k])||(k==='hero'?'img/hero_wings.jpg':'img/studio.jpg'))+'" alt=""><label class="btn btn-line btn-sm upl">'+esc(tx(lab))+'<input type="file" accept="image/*" data-img="'+k+'" hidden></label></div>').join('')+'</div>';
   return h+'<div class="bk-actions sticky"><button class="btn btn-fill" data-texts-save>'+esc(tx('save'))+'</button></div>';}
 function adminContacts(){
-  const so=socials();const F=[['whatsapp','WhatsApp','+48 600 000 000'],['telegram','Telegram','@zubi_tattoo'],['viber','Viber','+48 600 000 000'],['instagram','Instagram','zubi.tattoo'],['facebook','Facebook','facebook.com/…'],['tiktok','TikTok','@zubi.tattoo'],['phone',tx('fPhone'),'+48 600 000 000'],['email','E-mail','studio@example.com']];
+  const so=socials();const F=[['booksy','Booksy','https://booksy.com/pl-pl/…'],['whatsapp','WhatsApp','+48 600 000 000'],['telegram','Telegram','@zubi_tattoo'],['viber','Viber','+48 600 000 000'],['instagram','Instagram','zubi.tattoo'],['facebook','Facebook','facebook.com/…'],['tiktok','TikTok','@zubi.tattoo'],['phone',tx('fPhone'),'+48 600 000 000'],['email','E-mail','studio@example.com']];
   return '<h3 class="ad-h">'+esc(tx('socials'))+'</h3><p class="mut small">'+esc(tx('socialsHint'))+'</p><div class="tfields">'+F.map(f=>'<label class="fld"><span>'+esc(f[1])+'</span><input data-so="'+f[0]+'" placeholder="'+esc(f[2])+'" value="'+esc(so[f[0]]||'')+'"></label>').join('')+'</div><div class="bk-actions"><button class="btn btn-fill" data-so-save>'+esc(tx('save'))+'</button></div>';}
 function renderAdmin(){
   const body=$('#adBody');
@@ -903,11 +1147,11 @@ function renderAdmin(){
     $('#adLogin').addEventListener('submit',async e=>{e.preventDefault();S.key=$('#adPass').value;try{const l=await adm('login');S.botToken=!!l.botToken;try{sessionStorage.setItem('zubi-admin',S.key)}catch(_){}S.admin=true;AD.err='';await loadAdmin();renderAll();renderAdmin();}catch(err){S.key=null;AD.err=err.code==='no_password'?tx('noPass'):tx('badPass');renderAdmin();}});
     setTimeout(()=>{const p=$('#adPass');if(p)p.focus();},60);return;}
   const nNew=S.all.filter(x=>x.status==='new').length;
-  const tabs=[['bookings',tx('tBookings')+(nNew?' ('+nNew+')':'')],['hours',tx('tHours')],['artists',tx('tArtists')],['works',tx('tWorks')],['texts',tx('tTexts')],['contacts',tx('tContacts')]];
+  const tabs=[['artists',tx('tArtists')],['works',tx('tWorks')],['texts',tx('tTexts')],['contacts',tx('tContacts')]];
   $('#adTabs').innerHTML=tabs.map(t=>'<button role="tab" class="tab" data-tab="'+t[0]+'" aria-selected="'+(AD.tab===t[0])+'">'+esc(t[1])+'</button>').join('');
   const act=document.activeElement&&body.contains(document.activeElement)?document.activeElement.getAttribute('data-tk')||document.activeElement.getAttribute('data-f'):null;
   body.innerHTML=({bookings:adminBookings,hours:adminHours,artists:adminArtists,works:adminWorks,texts:adminTexts,contacts:adminContacts})[AD.tab]();}
-function readArtistCard(card,a){const el=AD.editLang;const o=clone(a);o.name=card.querySelector('[data-f=name]').value.trim()||a.name;o.style=Object.assign({},a.style||{});o.style[el]=card.querySelector('[data-f=style]').value.trim();o.lang=card.querySelector('[data-f=lang]').value;o.booking=card.querySelector('[data-f=booking]').checked;delete o.id;return o;}
+function readArtistCard(card,a){const el=AD.editLang;const o=clone(a);o.name=card.querySelector('[data-f=name]').value.trim()||a.name;o.style=Object.assign({},a.style||{});o.style[el]=card.querySelector('[data-f=style]').value.trim();o.booksy=String(card.querySelector('[data-f=booksy]').value||'').trim();o.booking=card.querySelector('[data-f=booking]').checked;delete o.id;return o;}
 async function ensureColl(){}
 async function saveArtist(id,data){await adm('artist',{id:id,data:data});await loadState();await loadAdmin();}
 async function saveWork(id,data){await adm('work',{id:id,data:data});await loadState();}
@@ -929,8 +1173,8 @@ document.addEventListener('click',async e=>{
   if(t.id==='galleryOpen'||d.openGallery!==undefined){S.galleryArtist=null;renderGallery();openSheet('#gallery',t);return;}
   if(d.portfolio){S.galleryArtist=d.portfolio;renderGallery(d.portfolio);openSheet('#gallery',t);return;}
   if(d.w){showWork(d.w,t);return;}
-  if(t.id==='lbClose'){const v=$('#lbVid');v.pause&&v.pause();closeSheet('#lb');return;}
-  if(d.book!==undefined){e.preventDefault();['#mine','#menu','#gallery'].forEach(s=>{if(!$(s).hidden)closeSheet(s);});openBooking(d.book||null,t);return;}
+  if(t.id==='lbClose'){closeLb();return;}
+  if(d.book!==undefined){e.preventDefault();goBooksy(d.book||null);return;}
   if(d.openMine!==undefined||t.id==='menuMine'){e.preventDefault();['#booking','#menu'].forEach(s=>{if(!$(s).hidden)closeSheet(s);});renderMine();openSheet('#mine',t);loadMine();return;}
   if(t.id==='menuPanel'||t.id==='footPanel'){e.preventDefault();closeSheet('#menu');openAdmin(t);return;}
   if(d.copy!==undefined){await copyText(d.copy);return;}
@@ -1008,6 +1252,57 @@ function openAdmin(from){renderAdmin();openSheet('#admin',from);}
 /* ---------- data wiring ---------- */
 let saved=null;try{saved=localStorage.getItem('zubi-lang')}catch(e){}
 S.lang=LANGS.includes(saved)?saved:'pl';
+/* ---------- Booksy: booking happens there ---------- */
+function booksyUrl(id){const a=id&&artist(id);const u=String((a&&a.booksy)||socials().booksy||'').trim();return /^https?:\/\//.test(u)?u:'';}
+function goBooksy(id){const u=booksyUrl(id);
+  if(u){const x=document.createElement('a');x.href=u;x.target='_blank';x.rel='noopener';document.body.appendChild(x);x.click();x.remove();return;}
+  ['#menu','#gallery','#mine','#lb'].forEach(s=>{if(!$(s).hidden)closeSheet(s);});jumpTo('#visit');toast(tx('booksySoon'));}
+function booksyRow(a){return '<label class="fld"><span>Booksy</span><input data-f="booksy" type="url" inputmode="url" placeholder="https://booksy.com/pl-pl/…" value="'+esc(a.booksy||'')+'"><span class="help">'+esc(tx('booksyHelp'))+'</span></label>';}
+
+/* ---------- motion layer ---------- */
+const FINE=matchMedia('(hover:hover) and (pointer:fine)').matches;
+/* hero headline: words rise out of a mask */
+function splitHero(){const h=$('.hero h1');if(!h)return;const txt=h.textContent.trim();if(!txt)return;h.setAttribute('aria-label',txt);
+  h.innerHTML=txt.split(/\s+/).map((w,i)=>'<span class="w" aria-hidden="true"><i style="--i:'+i+'">'+esc(w)+'</i></span>').join(' ');}
+(function heroIn(){const D=document.documentElement;const go=()=>requestAnimationFrame(()=>requestAnimationFrame(()=>D.classList.add('hero-in')));
+  if(!D.classList.contains('ld-wait')){go();return;}
+  const mo=new MutationObserver(()=>{if(!D.classList.contains('ld-wait')){mo.disconnect();go();}});mo.observe(D,{attributes:true,attributeFilter:['class']});})();
+/* styles marquee: words come from the artists' styles, so it follows the content */
+function renderMarquee(){const el=$('#mq');if(!el)return;const set=new Set();
+  sortedArtists().forEach(a=>String(loc(a.style)||'').split(/[,·/&+]|\bi\b|\band\b|\bта\b|\bи\b/).forEach(s=>{s=s.trim();if(s.length>2)set.add(s.charAt(0).toUpperCase()+s.slice(1));}));
+  ['Fine line','Blackwork','Ornamental','Lettering'].forEach(s=>{if(set.size<4)set.add(s);});
+  const words=[...set].slice(0,8);const run='<div class="mq-run">'+words.map(w=>'<span>'+esc(w)+'</span><b class="mq-dot"></b>').join('')+'</div>';
+  const key=words.join('|');if(el._k===key)return;el._k=key;el.innerHTML='<div class="mq-track">'+run+run+'</div>';mqAnim=null;}
+let mqAnim=null,mqY=scrollY,mqT=performance.now(),boost=0;
+addEventListener('scroll',()=>{const now=performance.now(),dy=scrollY-mqY,dt=Math.max(16,now-mqT);mqY=scrollY;mqT=now;boost=Math.max(-6,Math.min(6,boost+dy/dt*1.6));},{passive:true});
+(function mqLoop(){if(!reduce){const tr=$('#mq .mq-track');if(tr){if(!mqAnim||mqAnim.effect.target!==tr)mqAnim=tr.getAnimations?tr.getAnimations()[0]:null;
+  if(mqAnim){boost*=.92;const r=1+boost;mqAnim.playbackRate=Math.abs(r)<.15?(r<0?-.15:.15):r;}}}requestAnimationFrame(mqLoop);})();
+{const _at=applyTexts;applyTexts=function(){_at();splitHero();};const _ra=renderArtists;renderArtists=function(){_ra();renderMarquee();};}
+/* shared-element transition: the tile morphs into the lightbox */
+{const _sw=showWork;showWork=function(id,from){const im=from&&from.querySelector?from.querySelector('img'):null;S._lbFrom=im;
+  if(!document.startViewTransition||reduce||!im){_sw(id,from);return;}
+  im.style.viewTransitionName='zw';
+  const vt=document.startViewTransition(()=>{im.style.viewTransitionName='';_sw(id,from);const big=$('#lbImg');big.style.viewTransitionName='zw';return big.decode?big.decode().catch(()=>{}):null;});
+  vt.finished.finally(()=>{$('#lbImg').style.viewTransitionName='';});};}
+function closeLb(){const v=$('#lbVid');v.pause&&v.pause();const im=S._lbFrom,big=$('#lbImg');
+  if(!document.startViewTransition||reduce||!im||!im.isConnected||big.hidden){closeSheet('#lb');return;}
+  big.style.viewTransitionName='zw';const vt=document.startViewTransition(()=>{big.style.viewTransitionName='';closeSheet('#lb');im.style.viewTransitionName='zw';});
+  vt.finished.finally(()=>{im.style.viewTransitionName='';});}
+/* desktop: contextual cursor label + magnetic primary buttons */
+if(FINE&&!reduce){
+  const cur=document.createElement('div');cur.className='cur';cur.setAttribute('aria-hidden','true');cur.innerHTML='<span></span>';document.body.appendChild(cur);
+  const lab=cur.firstChild;let x=-200,y=-200,cx=x,cy=y,mag=null;
+  const MAG='.hero-cta .btn-fill,#bar .btn,.nav-cta';
+  addEventListener('pointermove',e=>{x=e.clientX;y=e.clientY;const t=e.target;
+    const tile=t.closest&&t.closest('.tile'),bk=t.closest&&t.closest('[data-book]');
+    const label=tile?tx('cView'):bk&&!bk.closest('#bar')&&!bk.matches('.nav-cta')?'Booksy ↗':'';
+    if(label){if(lab.textContent!==label)lab.textContent=label;cur.classList.add('on');}else cur.classList.remove('on');
+    const m=t.closest&&t.closest(MAG);
+    if(m!==mag){if(mag){mag.style.translate='';mag.classList.remove('mag');}mag=m;if(mag)mag.classList.add('mag');}
+    if(mag){const r=mag.getBoundingClientRect();const dx=(x-(r.left+r.width/2))/r.width,dy=(y-(r.top+r.height/2))/r.height;mag.style.translate=(dx*10).toFixed(1)+'px '+(dy*8).toFixed(1)+'px';}},{passive:true});
+  document.addEventListener('pointerleave',()=>cur.classList.remove('on'));
+  (function loop(){cx+=(x-cx)*.2;cy+=(y-cy)*.2;cur.style.transform='translate('+cx.toFixed(1)+'px,'+cy.toFixed(1)+'px)';requestAnimationFrame(loop);})();
+}
 S.mine=[];renderAll();
 async function loadState(){try{const s=await api('state');S.live=!!s.live;S.bot=s.bot||null;
   if(s.content)S.content=Object.assign(clone(DEF.content),s.content);if(Array.isArray(s.artists))S.artists=s.artists;if(Array.isArray(s.works))S.works=s.works;S.slots=s.slots||[];
@@ -1016,7 +1311,7 @@ async function loadMine(){const k=myKeys();if(!k.length){S.mine=[];return;}
   try{const r=await api('booking?k='+encodeURIComponent(k.join(',')));S.mine=(r.items||[]).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));renderMenuExtras();if(!$('#mine').hidden)renderMine();}catch(e){}}
 function applyAdmin(r){S.tg=r.tg||{};S.links=r.links||{};if(r.bot)S.bot=r.bot;S.botToken=!!r.botToken;
   const known=new Set(S.all.map(x=>x.id));const items=r.items||[];const fresh=S._adLoaded?items.filter(x=>!known.has(x.id)&&x.status==='new'):[];
-  S.all=items;S._adLoaded=true;if(fresh.length)toast(tx('newToast')+': '+fresh[0].name+', '+dLong(fresh[0].date)+' '+fresh[0].time);}
+  S.all=[];S._adLoaded=true;if(fresh.length)toast(tx('newToast')+': '+fresh[0].name+', '+dLong(fresh[0].date)+' '+fresh[0].time);}
 async function loadAdmin(){if(!S.key)return;
   try{const r=await adm('list');S.admin=true;applyAdmin(r);renderMenuExtras();if(!$('#admin').hidden&&!editingAdmin())renderAdmin();}
   catch(e){if(e.status===401){S.admin=false;S.key=null;try{sessionStorage.removeItem('zubi-admin')}catch(_){}}
@@ -1025,13 +1320,15 @@ async function loadAdmin(){if(!S.key)return;
 (async function(){
   const q=new URLSearchParams(location.search);const bk=q.get('b');
   if(bk&&/^[A-Za-z0-9]+\.[a-f0-9]+$/.test(bk)){addKey(bk);history.replaceState(null,'',location.pathname+location.hash);}
-  await loadState();await loadMine();
+  await loadState();if(window.ZL)ZL.step('data');await loadMine();
   if(bk){renderMine();openSheet('#mine');}
   if(S.key)await loadAdmin();
   if(location.hash==='#panel')openAdmin();
-  setInterval(()=>{if(document.hidden)return;if(S.admin)loadAdmin();if(!$('#booking').hidden||!$('#mine').hidden){loadState();loadMine();}},20000);
+  setInterval(()=>{if(document.hidden)return;if(!$('#booking').hidden||!$('#mine').hidden){loadState();loadMine();}},20000);
   setInterval(()=>{if(!document.hidden)loadState();},120000);
 })();
 })();
 
 </script>
+</body>
+</html>
