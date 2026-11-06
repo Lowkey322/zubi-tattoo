@@ -627,6 +627,9 @@ html{scrollbar-color:#3a3633 #0C0C0C}
 }
 @media (prefers-reduced-motion:reduce){.btn::after,.cbtn::after{transition:none}.qa summary::after{transition:none}}
 
+/* hero: subtitle measure on wide screens */
+@media (min-width:1024px){.hero-text{width:min(620px,48%)}.hero-text p{max-width:44ch;font-size:16px;line-height:1.55}}
+
 .tgrow p{margin:2px 0 8px}.tgrow b.ok{color:#8fd19a}.tgrow b.off{color:#d8b48a}
 .tg-cta{width:100%;justify-content:center;margin-top:4px}
 .login{display:grid;gap:16px;max-width:420px}
