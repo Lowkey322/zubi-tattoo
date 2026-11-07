@@ -543,9 +543,9 @@ body::after{content:"";position:fixed;inset:-40%;z-index:94;pointer-events:none;
 @keyframes toastIn{from{opacity:0;translate:0 -10px;scale:.94}to{opacity:1;translate:0 0;scale:1}}
 /* every tappable thing gives way under the finger and springs back */
 :where(.btn,.cbtn,.menu-btn,.close,.tab,.mini,#langBtn,.lang-menu button,.lang-pills button,.menu-list a,.menu-list button,.tile,.panel-link){transition:scale .45s var(--spring),background-color .2s ease,color .2s ease,opacity .2s ease,translate .5s cubic-bezier(.16,1,.3,1);-webkit-tap-highlight-color:transparent}
-:where(.btn,.cbtn,.menu-btn,.close,.tab,.mini,#langBtn,.lang-menu button,.lang-pills button,.menu-list a,.menu-list button,.panel-link):active{scale:.95}
-.tile:active{scale:.98}
-@media (prefers-reduced-motion:reduce){.lang-menu:not([hidden]),.lang-menu:not([hidden]) button,.sheet:not([hidden]),.sheet:not([hidden])>.in,.sheet:not([hidden]) .menu-list>*,.ask:not([hidden]),.ask:not([hidden])>.ask-in,.toast:not([hidden]){animation:none}:is(.btn,.cbtn,.menu-btn,.close,.tab,.mini,#langBtn,.tile):active{scale:none}}
+:where(.btn,.cbtn,.menu-btn,.close,.tab,.mini,.chipb,#langBtn,.lang-menu button,.lang-pills button,.menu-list a,.menu-list button,.panel-link):is(:active,.is-press){scale:.95}
+.tile:is(:active,.is-press){scale:.98}
+@media (prefers-reduced-motion:reduce){.lang-menu:not([hidden]),.lang-menu:not([hidden]) button,.sheet:not([hidden]),.sheet:not([hidden])>.in,.sheet:not([hidden]) .menu-list>*,.ask:not([hidden]),.ask:not([hidden])>.ask-in,.toast:not([hidden]){animation:none}}
 /* short viewports: in-app browsers (Instagram, Telegram) eat 100–170px of height */
 @media (max-width:899px) and (max-height:700px){
   .hero{height:max(100svh,500px)}
@@ -634,22 +634,27 @@ html{scrollbar-color:#3a3633 #0C0C0C}
 .legal p{margin:0 0 10px;font-size:15px;line-height:1.65;color:#B5AEA5}
 .legal a{color:var(--ink);text-decoration-thickness:1px;text-underline-offset:3px}
 .credits .panel-link{background:none;border:0;padding:0;font:inherit;color:inherit;cursor:pointer;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
-/* ---------- buttons: ink fills in on hover ---------- */
-@media (hover:hover) and (pointer:fine){
-  .btn,.cbtn{position:relative;isolation:isolate;overflow:hidden}
-  .btn::after,.cbtn::after{content:"";position:absolute;inset:-1px;z-index:-1;border-radius:inherit;transform:translateY(101%);transition:transform .55s cubic-bezier(.16,1,.3,1)}
+/* ---------- buttons: ink fills in on hover (mouse) and under the finger (touch) ---------- */
+.btn,.cbtn{position:relative;isolation:isolate;overflow:hidden}
+.btn::after,.cbtn::after{content:"";position:absolute;inset:-1px;z-index:-1;border-radius:inherit;transform:translateY(101%);transition:transform .55s cubic-bezier(.16,1,.3,1);pointer-events:none}
+.btn-line::after{background:var(--ink)}
+.btn-fill::after{background:#0C0C0C}
+#bar .btn::after,.nav-cta::after{background:#0C0C0C}
+.cbtn::after{background:#3A3633}
+.tab::after,.mini::after{content:none}
+.btn.is-press::after,.cbtn.is-press::after{transform:translateY(0);transition-duration:.34s}
+.btn-line.is-press{color:var(--dark);border-color:var(--ink)}
+.btn-fill.is-press{color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+#bar .btn.is-press,.nav-cta.is-press{color:var(--ink)!important;box-shadow:inset 0 0 0 1px rgba(233,228,221,.9)}
+.foot .cbtn.is-press,.prices .cbtn.is-press{color:var(--ink)}
+@media (any-hover:hover) and (any-pointer:fine){
   .btn:hover::after,.cbtn:hover::after{transform:translateY(0)}
-  .btn-line::after{background:var(--ink)}
   .btn-line:hover{color:var(--dark);border-color:var(--ink)}
-  .btn-fill::after{background:#0C0C0C}
   .btn-fill:hover{color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
-  #bar .btn::after,.nav-cta::after{background:#0C0C0C}
   #bar .btn:hover,.nav-cta:hover{color:var(--ink)!important;box-shadow:inset 0 0 0 1px rgba(233,228,221,.9)}
-  .cbtn::after{background:#3A3633}
   .foot .cbtn:hover,.prices .cbtn:hover{color:var(--ink)}
-  .tab::after,.mini::after{content:none}
 }
-@media (prefers-reduced-motion:reduce){.btn::after,.cbtn::after{transition:none}.qa summary::after{transition:none}}
+
 
 /* hero: subtitle measure on wide screens */
 @media (min-width:1024px){.hero-text{width:min(620px,48%)}.hero-text p{max-width:44ch;font-size:16px;line-height:1.55}}
@@ -761,6 +766,37 @@ html.q-lite #workGrid .tile img,html.q-lite #workGrid .tile video,html.q-lite .s
 @media (min-width:2200px) and (min-height:1250px){html{zoom:1.35}#ld{zoom:.7407}}
 @media (min-width:3000px) and (min-height:1600px){html{zoom:1.7}#ld{zoom:.5882}}
 
+/* ---------- v12: one grid, 50px from the edges on desktop ---------- */
+@media (min-width:700px) and (max-width:1023px){
+  :root{--col:100%;--gut:max(42px,env(safe-area-inset-left,0px));--gut-r:max(42px,env(safe-area-inset-right,0px))}
+  .wrap{box-shadow:none}
+  #nav{left:max(36px,env(safe-area-inset-left,0px));right:max(36px,env(safe-area-inset-right,0px))}
+  #bar{width:calc(100% - 72px)}
+}
+@media (min-width:1024px){
+  /* sections sit 8px in from the window, so their padding is 42px: everything lines up at 50px from the screen edge, like the nav */
+  :root{--gut:max(42px,env(safe-area-inset-left,0px));--gut-r:max(42px,env(safe-area-inset-right,0px))}
+  #nav{padding:16px max(50px,env(safe-area-inset-right,0px)) 0 max(50px,env(safe-area-inset-left,0px))}
+  .credit{right:var(--gut-r)}
+  .hero-text{width:min(620px,44%)}
+  .sheet .in{max-width:1200px}
+  .sheet .in:has(.gallery){max-width:none}
+  .gallery{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+  .prices{column-gap:clamp(64px,7vw,140px)}
+  .faq{column-gap:clamp(64px,7vw,140px)}
+}
+/* selected works: always one full row, more pieces on wider screens */
+#workGrid>:nth-child(n+5){display:none}
+@media (min-width:1440px){#workGrid{grid-template-columns:repeat(5,minmax(0,1fr))}#workGrid>:nth-child(5){display:block}}
+@media (min-width:1800px){#workGrid{grid-template-columns:repeat(6,minmax(0,1fr))}#workGrid>:nth-child(6){display:block}}
+/* buttons keep their small motion even when the system asks for less movement:
+   a fill inside the button and a press are not the kind of motion that causes discomfort */
+@media (prefers-reduced-motion:reduce){
+  .btn::after,.cbtn::after{transition:transform .5s cubic-bezier(.16,1,.3,1)}
+  .qa summary::after{transition:rotate .35s ease}
+}
+@media (min-width:1440px){.acard .ph,.acompact .av{aspect-ratio:1/1}}
+
 .tgrow p{margin:2px 0 8px}.tgrow b.ok{color:#8fd19a}.tgrow b.off{color:#d8b48a}
 .tg-cta{width:100%;justify-content:center;margin-top:4px}
 .login{display:grid;gap:16px;max-width:420px}
@@ -777,11 +813,12 @@ div.info{padding:14px 16px;border:1px solid rgba(233,228,221,.16);border-radius:
 <script>
 (function(){
   var D=document.documentElement,ld=document.getElementById('ld'),q=location.search,h=location.hash,seen=false;
-  try{seen=sessionStorage.getItem('zubi-intro')==='1';}catch(e){}
+  /* shown again after 30 minutes away; reloads and back-navigation inside that window skip it */
+  try{seen=Date.now()-Number(localStorage.getItem('zubi-intro-at')||0)<18e5;}catch(e){}
   if(!/[?&]intro\b/.test(q)&&(seen||h==='#panel'||/[?&]b=/.test(q))){ld.remove();return;}
   D.classList.add('ld-wait');ld.style.animation='none';
   var $=function(i){return document.getElementById(i);},calm=D.classList.contains('q-calm'),T0=performance.now(),CAP=9000,READ=1500;
-  function seenNow(){try{sessionStorage.setItem('zubi-intro','1');}catch(e){}}
+  function seenNow(){try{localStorage.setItem('zubi-intro-at',String(Date.now()));}catch(e){}}
   var theme=document.querySelector('meta[name=theme-color]');if(theme)theme.setAttribute('content','#E9E4DD');
   var TXT={pl:['Ładowanie','Studio tatuażu · Warszawa'],uk:['Завантаження','Тату-студія · Варшава'],en:['Loading','Tattoo studio · Warsaw'],ru:['Загрузка','Тату-студия · Варшава']},lg='';
   try{lg=localStorage.getItem('zubi-lang')||'';}catch(e){}
@@ -825,8 +862,8 @@ div.info{padding:14px 16px;border:1px solid rgba(233,228,221,.16);border-radius:
       var f=.26+.86*(.66*dir+.34*inner)+(rnd()-.5)*.14;if(SM.bl[k]<.62)f=Math.max(f,.86);
       var r=S*.5*Math.min(1.12,f);
       var tx=OX+(x+(rnd()-.5)*.5*100/cols*.5)/100*L,ty=OY+(y+(rnd()-.5)*.5*100/cols*.5)/100*L;
-      var ang=rnd()*Math.PI*2,far=Math.max(VW,VH)*(.35+rnd()*.5);
-      dots.push({tx:tx,ty:ty,r:r,sx:VW/2+Math.cos(ang)*far*(.6+rnd()*.6),sy:VH*.42+Math.sin(ang)*far*(.6+rnd()*.6),
+      var ang=rnd()*Math.PI*2,far=Math.max(VW,VH)*(.35+rnd()*.5),near=10+rnd()*26;
+      dots.push({tx:tx,ty:ty,r:r,sx:calm?tx+Math.cos(ang)*near:VW/2+Math.cos(ang)*far*(.6+rnd()*.6),sy:calm?ty+Math.sin(ang)*near:VH*.42+Math.sin(ang)*far*(.6+rnd()*.6),
         th:Math.min(.985,.62*yn+.3*rnd()+.04*Math.abs(x-50)/50),at:-1,ph:rnd()*6.28,mist:.3+rnd()*.9});}}
     /* keep already-landed dots landed after a resize */
     if(old.length){var landedShare=old.filter(function(d){return d.at>=0;}).length/old.length;dots.forEach(function(d){if(d.th<landedShare*.985)d.at=0;});}
@@ -848,7 +885,7 @@ div.info{padding:14px 16px;border:1px solid rgba(233,228,221,.16);border-radius:
       pct.textContent=Math.round(disp*100)+'%';
       if(disp>=.8&&!brandAt){brandAt=now;ld.classList.add('brand');}
       if(disp>=1&&!doneAt){doneAt=now;ld.classList.add('done');pct.textContent='100%';}
-      if(doneAt&&now-doneAt>650&&now-brandAt>READ){phase='wipe';wipeT=now;ld.classList.add('wipe');if(calm)end();}
+      if(doneAt&&now-doneAt>650&&now-brandAt>READ){phase='wipe';wipeT=now;ld.classList.add('wipe');}
     }
     var c=cx;c.setTransform(DPR,0,0,DPR,0,0);c.clearRect(0,0,VW,VH);c.fillStyle='#0C0C0C';
     /* landed dots hum like the needle; flying dots ease in from the ink mist */
@@ -856,14 +893,13 @@ div.info{padding:14px 16px;border:1px solid rgba(233,228,221,.16);border-radius:
     for(var i=0;i<dots.length;i++){var d=dots[i];
       if(d.at<0&&disp>=d.th)d.at=now;
       var x,y,rr;
-      if(calm){if(d.at<0)continue;var g=d.at===0?1:eo((now-d.at)/520);x=d.tx;y=d.ty;rr=d.r*g;if(rr<.2)continue;c.moveTo(x+rr,y);c.arc(x,y,rr,0,6.2832);continue;}
-      if(d.at<0){x=d.sx+Math.sin(tt*.6+d.ph)*10;y=d.sy+Math.cos(tt*.5+d.ph)*10;rr=d.r*.34*d.mist;}
+      if(d.at<0){var wb=calm?2:10;x=d.sx+Math.sin(tt*.6+d.ph)*wb;y=d.sy+Math.cos(tt*.5+d.ph)*wb;rr=d.r*.34*d.mist;}
       else{var u=d.at===0?1:eo((now-d.at)/750);x=d.sx+(d.tx-d.sx)*u;y=d.sy+(d.ty-d.sy)*u;rr=d.r*(.34*d.mist+(1-.34*d.mist)*u);
-        if(u>=1&&!lite()){var hm=.22;x+=Math.sin(tt*41+d.ph)*hm;y+=Math.cos(tt*37+d.ph*1.3)*hm;}}
+        if(u>=1&&!lite()&&!calm){var hm=.22;x+=Math.sin(tt*41+d.ph)*hm;y+=Math.cos(tt*37+d.ph*1.3)*hm;}}
       c.moveTo(x+rr,y);c.arc(x,y,rr,0,6.2832);}
     c.fill();
     /* finale: a halftone screen grows from the mark until the page is solid ink */
-    if(phase==='wipe'&&!calm){
+    if(phase==='wipe'){
       var e=(now-wipeT)/1000,G=Math.max(VW<700?12:15,Math.round(Math.sqrt(VW*VH/(lite()?1800:3200)))),cxm=OX+L/2,cym=OY+L*.55,maxd=Math.hypot(Math.max(cxm,VW-cxm),Math.max(cym,VH-cym)),front=eo(Math.min(1,e/.8))*(maxd+G*10);
       c.beginPath();for(var gy=G/2;gy<VH+G;gy+=G)for(var gx=G/2;gx<VW+G;gx+=G){var dd=Math.hypot(gx-cxm,gy-cym),k=(front-dd)/(G*9);if(k<=0)continue;var R=Math.min(1,k)*G*.76;c.moveTo(gx+R,gy);c.arc(gx,gy,R,0,6.2832);}
       c.fill();
@@ -872,8 +908,8 @@ div.info{padding:14px 16px;border:1px solid rgba(233,228,221,.16);border-radius:
     requestAnimationFrame(frame);
   }
   var ended=false;
-  function end(){if(ended)return;ended=true;seenNow();ld.classList.add('out');if(calm)ld.classList.add('fade');if(theme)theme.setAttribute('content','#0C0C0C');
-    D.classList.remove('ld-wait');D.classList.add('ld-play');setTimeout(function(){D.classList.remove('ld-play');},2200);setTimeout(function(){ld.remove();},calm?700:560);}
+  function end(){if(ended)return;ended=true;seenNow();ld.classList.add('out');if(theme)theme.setAttribute('content','#0C0C0C');
+    D.classList.remove('ld-wait');D.classList.add('ld-play');setTimeout(function(){D.classList.remove('ld-play');},2200);setTimeout(function(){ld.remove();},560);}
   requestAnimationFrame(function(n){last=n;frame(n);});
 })();
 </script>
@@ -1100,7 +1136,7 @@ function tileHTML(w,full){
   return '<button class="tile" data-w="'+esc(w.id)+'"><img src="'+esc(src(w.media))+'" alt="'+esc(cap)+'" loading="lazy"><span class="chip">'+esc(chip)+'</span></button>';
 }
 function renderWorks(){
-  const all=sortedWorks(); let top=all.filter(w=>w.featured).slice(0,4); if(top.length<4) top=top.concat(all.filter(w=>!top.includes(w)).slice(0,4-top.length));
+  const all=sortedWorks(); let top=all.filter(w=>w.featured).slice(0,8); if(top.length<8) top=top.concat(all.filter(w=>!top.includes(w)).slice(0,8-top.length));
   $('#workGrid').innerHTML=top.map(w=>tileHTML(w)).join('');
 }
 function renderGallery(artistId){
@@ -1475,7 +1511,7 @@ function goBooksy(id){const u=booksyUrl(id);
 function booksyRow(a){return '<label class="fld"><span>Booksy</span><input data-f="booksy" type="url" inputmode="url" placeholder="https://booksy.com/pl-pl/…" value="'+esc(a.booksy||'')+'"><span class="help">'+esc(tx('booksyHelp'))+'</span></label>';}
 
 /* ---------- motion layer ---------- */
-const FINE=matchMedia('(hover:hover) and (pointer:fine)').matches;
+const FINE=matchMedia('(any-hover:hover) and (any-pointer:fine)').matches;
 /* hero headline: words rise out of a mask */
 function splitHero(){const h=$('.hero h1');if(!h)return;const txt=h.textContent.trim();if(!txt)return;h.setAttribute('aria-label',txt);
   h.innerHTML=txt.split(/\s+/).map((w,i)=>'<span class="w" aria-hidden="true"><i style="--i:'+i+'">'+esc(w)+'</i></span>').join(' ');}
@@ -1690,6 +1726,25 @@ document.addEventListener('click',e=>{const t=e.target.closest&&e.target.closest
     requestAnimationFrame(f);}
   function on(){if(D.classList.contains('ld-wait')||D.classList.contains('q-lite'))return;lastScroll=performance.now();if(!run){run=true;last=0;requestAnimationFrame(f);}}
   addEventListener('scroll',on,{passive:true});
+})();
+/* ---------- v12: press feedback that behaves the same on iPhone, Android and desktop ---------- */
+/* iOS Safari ignores :active unless the page listens for touches */
+document.addEventListener('touchstart',()=>{},{passive:true});
+(function(){
+  const SEL='.btn,.cbtn,.menu-btn,.close,.tab,.mini,.chipb,#langBtn,.lang-menu button,.lang-pills button,.menu-list a,.menu-list button,.panel-link,.tile';
+  let cur=null,timer=0,downAt=0;
+  const release=()=>{clearTimeout(timer);const b=cur;cur=null;if(!b)return;
+    if(!b.classList.contains('is-press')){b.classList.add('is-press');}           /* a quick tap still shows the press */
+    setTimeout(()=>b.classList.remove('is-press'),Math.max(160,220-(performance.now()-downAt)));};
+  const cancel=()=>{clearTimeout(timer);if(cur){cur.classList.remove('is-press');cur=null;}};
+  document.addEventListener('pointerdown',e=>{if(e.button>0)return;const b=e.target.closest&&e.target.closest(SEL);if(!b||b.disabled)return;
+    cancel();cur=b;downAt=performance.now();
+    /* touch waits a moment so a scroll that starts on a button does not flash it */
+    if(e.pointerType==='mouse')b.classList.add('is-press');else timer=setTimeout(()=>{if(cur===b)b.classList.add('is-press');},70);},{passive:true});
+  addEventListener('pointerup',release,true);
+  addEventListener('pointercancel',cancel,true);
+  addEventListener('dragstart',cancel,true);
+  addEventListener('scroll',()=>{if(cur&&!cur.classList.contains('is-press'))cancel();},{passive:true,capture:true});
 })();
 S.mine=[];renderAll();
 async function loadState(){try{const s=await api('state');S.live=!!s.live;S.bot=s.bot||null;
