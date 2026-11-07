@@ -19,7 +19,7 @@
   /* frame-time probe: a device that cannot hold ~36 fps on a quiet page gets the light version */
   window.ZQ={lite:function(){if(!D.classList.contains('q-lite')){D.classList.add('q-lite');try{ss.setItem('zubi-q','lite');}catch(e){}}},
     probe:function(frames,cb){var t=[],last=0;function f(now){if(document.hidden){last=0;requestAnimationFrame(f);return;}
-      if(last)t.push(now-last);last=now;if(t.length<frames){requestAnimationFrame(f);return;}
+      if(last&&now-last<250)t.push(now-last);last=now;if(t.length<frames){requestAnimationFrame(f);return;}
       t.sort(function(a,b){return a-b;});var med=t[t.length>>1],slow=t.filter(function(x){return x>50;}).length/t.length;
       if(med>28||slow>.2)window.ZQ.lite();if(cb)cb(med,slow);}requestAnimationFrame(f);}};
   /* safety net: never leave the page hidden behind a stuck intro */
@@ -841,7 +841,7 @@ div.info{padding:14px 16px;border:1px solid rgba(233,228,221,.16);border-radius:
     if(!ld.isConnected)return;window.ZL.alive=now;
     var raw=now-last,dt=Math.min(.05,raw/1000);last=now;
     /* frame-time probe while drawing: weak devices switch the whole site to the light version */
-    if(!probed&&got.load&&now-loadAt>250&&!document.hidden&&raw>0&&raw<1000){ft.push(raw);if(ft.length>=48){probed=true;var st=ft.slice().sort(function(a,b){return a-b;}),med=st[st.length>>1],slw=st.filter(function(x){return x>50;}).length/st.length;if((med>28||slw>.2)&&window.ZQ){window.ZQ.lite();}}}var t=(now-T0)/1000,r=real();
+    if(!probed&&got.load&&now-loadAt>250&&!document.hidden&&document.hasFocus()&&raw>0&&raw<250){ft.push(raw);if(ft.length>=48){probed=true;var st=ft.slice().sort(function(a,b){return a-b;}),med=st[st.length>>1],slw=st.filter(function(x){return x>50;}).length/st.length;if((med>28||slw>.2)&&window.ZQ){window.ZQ.lite();}}}var t=(now-T0)/1000,r=real();
     if(phase==='build'){
       var creep=.94*(1-Math.exp(-t/4)),target=r>=1?1:Math.min(.95,Math.max(creep*.6,r*.75+.2*(1-Math.exp(-t/3))));
       var sp=r>=1?1/.5:1/MINDRAW;disp=Math.min(target,disp+Math.min(sp*dt,Math.max(.002,(target-disp)*.12+sp*dt*.5)));
@@ -1683,7 +1683,7 @@ document.addEventListener('click',e=>{const t=e.target.closest&&e.target.closest
   const D=document.documentElement;if(!window.ZQ||D.classList.contains('q-lite'))return;
   let run=false,last=0,lastScroll=0,t=[],rounds=0;
   function f(now){if(!run)return;if(document.hidden||now-lastScroll>250){run=false;last=0;return;}
-    if(last)t.push(now-last);last=now;
+    if(last&&now-last<250)t.push(now-last);last=now;
     if(t.length>=60){const s=t.slice().sort((a,b)=>a-b),med=s[s.length>>1],slow=s.filter(x=>x>50).length/s.length;t=[];rounds++;
       if(med>30||slow>.25){window.ZQ.lite();run=false;return;}
       if(rounds>=3){run=false;removeEventListener('scroll',on);return;}}
