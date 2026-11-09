@@ -36,20 +36,20 @@ export default wrap(async (req, res) => {
       return send(res, 200, { item: pub(b) });
     }
     case 'content': await setJ(KEYS.content, clean(q.content)); return send(res, 200, { ok: true });
-    case 'artist': case 'work': {
-      const key = q.op === 'artist' ? KEYS.artists : KEYS.works;
+    case 'artist': case 'work': case 'flash': {
+      const key = q.op === 'artist' ? KEYS.artists : q.op === 'flash' ? KEYS.flash : KEYS.works;
       const arr = (await getJ(key, [])) || []; const id = String(q.id || '').slice(0, 40);
       if (!/^[A-Za-z0-9]+$/.test(id)) throw new HttpError(400, 'bad_id');
       const data = { ...clean(q.data), id }; const i = arr.findIndex(x => x.id === id);
       if (i >= 0) arr[i] = data; else arr.push(data);
       await setJ(key, arr); return send(res, 200, { ok: true });
     }
-    case 'artistDel': case 'workDel': {
-      const key = q.op === 'artistDel' ? KEYS.artists : KEYS.works;
+    case 'artistDel': case 'workDel': case 'flashDel': {
+      const key = q.op === 'artistDel' ? KEYS.artists : q.op === 'flashDel' ? KEYS.flash : KEYS.works;
       const arr = (await getJ(key, [])) || []; const gone = arr.find(x => x.id === q.id);
       await setJ(key, arr.filter(x => x.id !== q.id));
       if (q.op === 'artistDel') await r('DEL', 'zubi:tg:artist:' + q.id);
-      if (q.op === 'workDel' && gone && gone.media && /blob\.vercel-storage\.com/.test(gone.media.asset || '')) { try { const { del } = await import('@vercel/blob'); await del(gone.media.asset); } catch (e) { console.error(e); } }
+      if ((q.op === 'workDel' || q.op === 'flashDel') && gone && gone.media && /blob\.vercel-storage\.com/.test(gone.media.asset || '')) { try { const { del } = await import('@vercel/blob'); await del(gone.media.asset); } catch (e) { console.error(e); } }
       return send(res, 200, { ok: true });
     }
     case 'unlinkArtist': await r('DEL', 'zubi:tg:artist:' + String(q.id || '')); return send(res, 200, { ok: true });

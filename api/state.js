@@ -9,9 +9,9 @@ export async function seed() {
 }
 
 export default wrap(async (req, res) => {
-  if (!hasRedis()) return send(res, 200, { ...DEF, slots: [], bot: null, live: false });
+  if (!hasRedis()) return send(res, 200, { ...DEF, flash: [], slots: [], bot: null, live: false });
   await seed();
-  const [content, artists, works, bot, owners] = await Promise.all([getJ(KEYS.content), getJ(KEYS.artists, []), getJ(KEYS.works, []), getJ(KEYS.bot), slotOwners()]);
+  const [content, artists, works, flash, bot, owners] = await Promise.all([getJ(KEYS.content), getJ(KEYS.artists, []), getJ(KEYS.works, []), getJ(KEYS.flash, []), getJ(KEYS.bot), slotOwners()]);
   const slots = Object.entries(owners).map(([k, bookingId]) => { const [artistId, date, time] = k.split('|'); return { artistId, date, time, bookingId }; });
-  send(res, 200, { content, artists, works, slots, bot: bot && bot.username || null, live: true });
+  send(res, 200, { content, artists, works, flash: flash || [], slots, bot: bot && bot.username || null, live: true });
 });

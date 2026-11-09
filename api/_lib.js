@@ -50,7 +50,7 @@ export const artistSig = id => hmac('artist:' + id).slice(0, 10);
 export const webhookSecret = () => hmac('webhook').slice(0, 32);
 
 /* ---------- data ---------- */
-export const KEYS = { content: 'zubi:content', artists: 'zubi:artists', works: 'zubi:works', all: 'zubi:bk:all', slots: 'zubi:slots', bot: 'zubi:bot' };
+export const KEYS = { content: 'zubi:content', artists: 'zubi:artists', works: 'zubi:works', flash: 'zubi:flash', all: 'zubi:bk:all', slots: 'zubi:slots', bot: 'zubi:bot' };
 export const bkKey = id => 'zubi:bk:' + id;
 export const slotKey = (a, d, t) => 'zubi:slot:' + a + ':' + d + ':' + t.replace(':', '');
 export async function artists() { return (await getJ(KEYS.artists, [])) || []; }
