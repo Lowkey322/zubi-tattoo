@@ -944,6 +944,40 @@ html.q-lite .fl-card{box-shadow:0 8px 18px -10px rgba(0,0,0,.7)}
 .fl-status{margin:4px 0 6px}
 @supports (animation-timeline: view()){@media (prefers-reduced-motion:no-preference){.fl-card{animation:rvR linear both;animation-timeline:view();animation-range:entry 0% entry 200px}}}
 
+/* ---------- v15: "Free designs" as its own glass pill, joined to the main nav by a liquid neck ---------- */
+.nav-mid{display:none}
+@media (min-width:1024px){
+  .nav-mid{position:relative;display:flex;align-items:center;gap:12px;isolation:isolate}
+  .nav-mid>.nav-links,.nav-mid>.nav-flash{position:relative;z-index:1}
+  .nav-mid>.nav-links{background:none!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+  .nav-mid>.nav-links::before{display:none}
+  .nav-flash{display:flex;padding:6px;border-radius:999px;text-decoration:none;color:var(--fg)}
+  .nav-flash[hidden]{display:none}
+  .nav-flash span{display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;font:500 14px var(--f-body);white-space:nowrap;transition:background .2s,color .35s}
+  .nav-flash span::before{content:"";width:6px;height:6px;border-radius:50%;background:#7FB069;box-shadow:0 0 0 3px rgba(127,176,105,.2)}
+  .nav-flash:hover span{background:rgba(255,255,255,.12)}
+  #nav.lt .nav-flash:hover span{background:rgba(18,18,18,.06)}
+  /* one continuous glass shape under both pills */
+  .nav-glass{position:absolute;inset:0;z-index:0;pointer-events:none;-webkit-backdrop-filter:blur(18px) saturate(180%);backdrop-filter:blur(18px) saturate(180%)}
+  .ng-svg{position:absolute;left:-40px;top:-40px;z-index:0;pointer-events:none;overflow:visible}
+  .ng-fill{fill:rgba(255,255,255,.10)}
+  .ng-shadow{fill:rgba(0,0,0,.3)}
+  .ng-s1{stop-color:rgba(255,255,255,.5)}.ng-s2{stop-color:rgba(255,255,255,.16)}
+  .ng-g1{stop-color:rgba(255,255,255,.3)}.ng-g2{stop-color:rgba(255,255,255,0)}.ng-g3{stop-color:rgba(255,255,255,.08)}
+  #nav.lt .ng-fill{fill:rgba(255,255,255,.4)}
+  #nav.lt .ng-shadow{fill:rgba(0,0,0,.12)}
+  #nav.lt .ng-s1{stop-color:rgba(255,255,255,.95)}#nav.lt .ng-s2{stop-color:rgba(18,18,18,.1)}
+  #nav.lt .ng-g1{stop-color:rgba(255,255,255,.5)}
+  html.q-lite .nav-glass{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+  html.q-lite .ng-fill{fill:rgba(32,31,29,.9)}
+  html.q-lite #nav.lt .ng-fill{fill:rgba(245,242,238,.96)}
+  /* intro: the middle group enters like the old nav pill did */
+  html.ld-wait #nav>.nav-mid{opacity:0}
+  html.ld-play #nav>.nav-mid{animation:ldDown .8s cubic-bezier(.16,1,.3,1) .07s both}
+  html.q-lite.ld-play #nav>.nav-mid{animation-name:ldDownL}
+}
+@media (min-width:1024px) and (prefers-reduced-motion:reduce){html.ld-play #nav>.nav-mid{animation:zFade .7s ease both}}
+
 .tgrow p{margin:2px 0 8px}.tgrow b.ok{color:#8fd19a}.tgrow b.off{color:#d8b48a}
 .tg-cta{width:100%;justify-content:center;margin-top:4px}
 .login{display:grid;gap:16px;max-width:420px}
@@ -1066,13 +1100,12 @@ div.info{padding:14px 16px;border:1px solid rgba(233,228,221,.16);border-radius:
     <svg viewBox="0 0 100 100" width="22" height="22" aria-hidden="true"><path fill-rule="evenodd" fill="currentColor" d="M16 6L37 29C45 27 55 27 63 29L84 6C89 22 89 34 87 43C91 49 95 56 97 65L89.5 62.5C88 80 70 92 50 92C30 92 12 80 10.5 62.5L3 65C5 56 9 49 13 43C11 34 11 22 16 6ZM21 18L30 30L22 35ZM79 18L70 30L78 35ZM23 50C31 48.5 39 51 45.5 55.5C39 60 28 58.5 23 50ZM77 50C69 48.5 61 51 54.5 55.5C61 60 72 58.5 77 50ZM46.8 65.5H53.2L50 69.2ZM42.6 73.2L45.6 84.5L48.2 74.2ZM51.8 74.2L54.4 84.5L57.4 73.2Z"/><path fill="currentColor" d="M35.6 50.5C34.5 53 34.5 56.5 35.6 59C36.7 56.5 36.7 53 35.6 50.5ZM64.4 50.5C63.3 53 63.3 56.5 64.4 59C65.5 56.5 65.5 53 64.4 50.5Z"/></svg>
     <b>Zubi</b>
   </a>
-  <nav class="nav-links g" aria-label="Sections">
+  <div class="nav-mid"><span class="nav-glass" aria-hidden="true"></span><svg class="ng-svg" aria-hidden="true" focusable="false"><defs><filter id="ngBlur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="10"/></filter><mask id="ngOut" maskUnits="userSpaceOnUse"><rect id="ngMaskRect" fill="white"/><path data-ng fill="black"/></mask><linearGradient id="ngStroke" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="ng-s1"/><stop offset=".45" class="ng-s2"/><stop offset="1" class="ng-s2"/></linearGradient><linearGradient id="ngSheen" x1="0" y1="0" x2="1" y2="1"><stop offset="0" class="ng-g1"/><stop offset=".4" class="ng-g2"/><stop offset=".7" class="ng-g2"/><stop offset="1" class="ng-g3"/></linearGradient><clipPath id="ngClip"><path data-ng/></clipPath></defs><g mask="url(#ngOut)"><path data-ng class="ng-shadow" transform="translate(0 8)" filter="url(#ngBlur)"/></g><path data-ng class="ng-fill"/><path data-ng fill="url(#ngSheen)"/><path data-ng fill="none" stroke="url(#ngStroke)" stroke-width="2" clip-path="url(#ngClip)"/></svg><nav class="nav-links g" aria-label="Sections">
     <a href="#visit" data-jump data-i18n="mAbout">About the studio</a>
     <a href="#gallery" data-go-gallery data-i18n="mGallery">Gallery</a>
-    <a href="#flash" data-jump data-flash-link hidden data-i18n="mFlash">Free designs</a>
     <a href="#prices" data-jump data-i18n="mPrices">Price list</a>
     <a href="#artists" data-jump data-i18n="artists">Artists</a>
-  </nav>
+  </nav><a href="#flash" class="nav-flash" data-jump data-flash-link hidden><span data-i18n="mFlash">Free designs</span></a></div>
   <div class="actions">
     <button class="lang-btn g ink" id="langBtn" aria-haspopup="true" aria-expanded="false" aria-controls="langMenu" data-i18n-aria="langAria">
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M3.6 9h16.8M3.6 15h16.8M11.5 3a17 17 0 0 0 0 18M12.5 3a17 17 0 0 1 0 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
@@ -1990,6 +2023,49 @@ function seoSet(){const l=S.lang;const site=location.origin;
   const arts=(S.artists||[]).filter(a=>a&&a.name&&!/^Artysta \d+$/.test(a.name));if(arts.length)d.employee=arts.map(a=>({'@type':'Person','name':a.name,'jobTitle':'Tattoo artist'}));
   const el=document.getElementById('ldjson');if(el)el.textContent=JSON.stringify(d);}
 {const _at3=applyTexts;applyTexts=function(){_at3.apply(this,arguments);seoSet();};}
+/* ---------- v15: liquid glass that holds the main nav pill and the "Free designs" pill ---------- */
+(function(){
+  const mid=$('.nav-mid');if(!mid)return;
+  const A=mid.querySelector('.nav-links'),B=mid.querySelector('.nav-flash'),glass=mid.querySelector('.nav-glass'),svg=mid.querySelector('.ng-svg');
+  const P=[...svg.querySelectorAll('[data-ng]')];const PAD=40;
+  const calm=matchMedia('(prefers-reduced-motion: reduce)');
+  let t=1,target=1,vel=0,raf=0,last=0,wasShown=false;
+  /* t=0: one long pill (full-height bridge), t=1: two pills joined by a thin neck */
+  function pathFor(t){
+    const ax=A.offsetLeft,ay=A.offsetTop,aw=A.offsetWidth,h=A.offsetHeight,r=h/2,cy=ay+r;
+    const pill=(x,w)=>'M'+(x+r)+' '+ay+'H'+(x+w-r)+'A'+r+' '+r+' 0 0 1 '+(x+w-r)+' '+(ay+h)+'H'+(x+r)+'A'+r+' '+r+' 0 0 1 '+(x+r)+' '+ay+'Z';
+    if(!B||B.hidden||!B.offsetWidth)return pill(ax,aw);
+    const bx=B.offsetLeft,bw=B.offsetWidth;
+    const th=(90-48*t)*Math.PI/180,s=Math.sin(th),c=Math.cos(th),n=r*(1-.56*t);
+    const k=c<.03?0:(r*s-n)/(.75*c);
+    const cA=ax+aw-r,cB=bx+r,f=v=>Math.round(v*100)/100;
+    const at=[cA+r*c,cy-r*s],bt=[cB-r*c,cy-r*s],ab=[cA+r*c,cy+r*s],bb=[cB-r*c,cy+r*s];
+    return 'M'+f(ax+r)+' '+f(ay)+'H'+f(cA)+'A'+r+' '+r+' 0 0 1 '+f(at[0])+' '+f(at[1])+
+      'C'+f(at[0]+k*s)+' '+f(at[1]+k*c)+' '+f(bt[0]-k*s)+' '+f(bt[1]+k*c)+' '+f(bt[0])+' '+f(bt[1])+
+      'A'+r+' '+r+' 0 0 1 '+f(cB)+' '+f(ay)+'H'+f(bx+bw-r)+'A'+r+' '+r+' 0 0 1 '+f(bx+bw-r)+' '+f(ay+h)+'H'+f(cB)+
+      'A'+r+' '+r+' 0 0 1 '+f(bb[0])+' '+f(bb[1])+
+      'C'+f(bb[0]-k*s)+' '+f(bb[1]-k*c)+' '+f(ab[0]+k*s)+' '+f(ab[1]-k*c)+' '+f(ab[0])+' '+f(ab[1])+
+      'A'+r+' '+r+' 0 0 1 '+f(cA)+' '+f(ay+h)+'H'+f(ax+r)+'A'+r+' '+r+' 0 0 1 '+f(ax+r)+' '+f(ay)+'Z';}
+  function draw(){if(!A.offsetWidth)return;const d=pathFor(t);const W=mid.offsetWidth,H=mid.offsetHeight;
+    glass.style.clipPath="path('"+d+"')";glass.style.webkitClipPath="path('"+d+"')";
+    svg.setAttribute('width',W+PAD*2);svg.setAttribute('height',H+PAD*2);svg.setAttribute('viewBox',(-PAD)+' '+(-PAD)+' '+(W+PAD*2)+' '+(H+PAD*2));
+    const m=svg.querySelector('#ngMaskRect');m.setAttribute('x',-PAD);m.setAttribute('y',-PAD);m.setAttribute('width',W+PAD*2);m.setAttribute('height',H+PAD*2);
+    P.forEach(p=>p.setAttribute('d',d));}
+  /* a soft spring, so the neck stretches and settles like liquid */
+  function step(now){const dt=Math.min(.034,(now-(last||now))/1000);last=now;
+    vel+=(target-t)*170*dt;vel*=Math.pow(.0009,dt);t+=vel*dt;
+    draw();if(Math.abs(target-t)>.0015||Math.abs(vel)>.002)raf=requestAnimationFrame(step);else{t=target;vel=0;raf=0;last=0;draw();}}
+  function go(to){target=to;if(calm.matches||document.documentElement.classList.contains('q-lite')){t=to;draw();return;}if(!raf)raf=requestAnimationFrame(step);}
+  function shown(){const v=!!(B&&!B.hidden);if(v&&!wasShown){wasShown=true;t=0;draw();
+      const wait=()=>document.documentElement.classList.contains('ld-wait')?setTimeout(wait,200):setTimeout(()=>go(1),650);wait();}
+    else{if(!v)wasShown=false;draw();}}
+  if('ResizeObserver' in window)new ResizeObserver(()=>draw()).observe(mid);
+  if(B){new MutationObserver(shown).observe(B,{attributes:true,attributeFilter:['hidden']});
+    B.addEventListener('pointerenter',()=>go(.78));B.addEventListener('pointerleave',()=>go(1));
+    B.addEventListener('focus',()=>go(.78));B.addEventListener('blur',()=>go(1));}
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(draw);
+  addEventListener('resize',draw);shown();draw();
+})();
 S.mine=[];renderAll();
 async function loadState(){try{const s=await api('state');S.live=!!s.live;S.bot=s.bot||null;
   if(s.content)S.content=Object.assign(clone(DEF.content),s.content);if(Array.isArray(s.artists))S.artists=s.artists;if(Array.isArray(s.works))S.works=s.works;S.flash=Array.isArray(s.flash)?s.flash:[];S.slots=s.slots||[];
